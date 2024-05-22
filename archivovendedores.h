@@ -3,8 +3,7 @@
 
 class archivovendedores
 {
-private:
-    char nombre[30];
+
 public:
     archivovendedores() {
         FILE* p = fopen("vendedores.dat", "rb");
