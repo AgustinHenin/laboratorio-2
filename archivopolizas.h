@@ -3,8 +3,7 @@
 #include "polizas.h"
 
 class archivopolizas {
-private:
-    char nombre[30];
+
 public:
     archivopolizas() {
         FILE* p = fopen("polizas.dat", "rb");
