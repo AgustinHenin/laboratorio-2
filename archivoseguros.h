@@ -2,8 +2,7 @@
 #include "seguros.h"
 
 class archivoseguros {
-private:
-    char nombre[30];
+
 public:
     archivoseguros() {
         FILE* p = fopen("seguros.dat", "rb");
