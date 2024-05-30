@@ -63,5 +63,12 @@ public:
             return 1;
         }
     }
-};
 
+    bool sobreescribir(clientes obj, int pos) {
+        FILE* p = AbrirArchivo("rb+");
+        fseek(p, sizeof obj * pos, 0);
+        bool escribio = fwrite(&obj, sizeof obj, 1, p);
+        fclose(p);
+        return escribio;
+    }
+};
