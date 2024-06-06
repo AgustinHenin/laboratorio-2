@@ -28,5 +28,47 @@ public:
     void settelefono(const char* t) { strcpy(telefono, t); }
     void setemail(const char* e) { strcpy(email, e); }
     void setidCliente(int id) { idCliente = id; }
+
+//Agregue esto 
+std::string toString() const {
+		std::string str = "Nombre:  ";
+		str += getNombre();
+		str += "  Apellido:  ";
+		str += getApellido();
+		str += "  DNI:  ";
+		str += std::to_string(getDNI());
+		str += "  Fecha de nacimiento:  ";
+		str += getNacimiento().toString();
+		//str += "  Domicilio:  ";
+		//str += getdomicilio();
+		str += "  Telefono:  ";
+		str += gettelefono();
+		str += "  Email:  ";
+		str += getemail();
+		//str += "  ID Cliente:  ";
+		//str += std::to_string(getidCliente());
+
+		return str;
+	}
+	std::string toString2() const {
+		std::string str = "Nombre:  ";
+		str += getNombre();
+		str += "\nApellido:  ";
+		str += getApellido();
+		str += "\nDNI:  ";
+		str += std::to_string(getDNI());
+		str += "\nFecha de nacimiento:  ";
+		str += getNacimiento().toString();
+		str += "\nDomicilio:  ";
+		str += getdomicilio();
+		str += "\nTelefono:  ";
+		str += gettelefono();
+		str += "\nEmail:  ";
+		str += getemail();
+		str += "\nID Cliente:  ";
+		str += std::to_string(getidCliente());
+
+		return str;
+	}
 };
 
