@@ -71,4 +71,13 @@ public:
         fclose(p);
         return escribio;
     }
+//AGREGUE ESTO
+	std::vector<clientes> LeerArchivoAlmacenarEnVector() {
+		std::vector<clientes> vectorClientes;
+		int cant = contarRegistros();
+		for (int i = 0; i < cant; i++) {
+			vectorClientes.push_back(leerRegistro(i));
+		}
+		return vectorClientes;
+	}
 };
