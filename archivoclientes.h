@@ -1,5 +1,7 @@
 #pragma once
 #include "clientes.h"
+//AGREGUE ESTO
+#include <vector> 
 
 class archivoclientes
 {
