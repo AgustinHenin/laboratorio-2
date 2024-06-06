@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>//AGREGUE ESTO
 #include "vendedores.h"
 
 class archivovendedores
