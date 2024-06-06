@@ -1,6 +1,8 @@
 #pragma once
 #include "polizas.cpp"
 #include "polizas.h"
+//AGREGUE ESTO
+#include <vector>
 
 class archivopolizas {
 
