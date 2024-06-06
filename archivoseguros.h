@@ -62,6 +62,17 @@ public:
             return 1;
         }
     }
+
+//AGREGUE ESTO
+std::vector<seguros> LeerArchivoAlmacenarEnVector() {
+		std::vector<seguros> vectorSeguros;
+		int cant = contarRegistros();
+		for (int i = 0; i < cant; i++) {
+			vectorSeguros.push_back(leerRegistro(i));
+		}
+		return vectorSeguros;
+	}
+
 };
 
 
