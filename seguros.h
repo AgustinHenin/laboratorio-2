@@ -31,5 +31,16 @@ public:
     void setnombre(const char* n) { strcpy(nombre, n); }
     void setidSeguro(int id) { idSeguro = id; }
 
+//AGREGUE ESTE METODO
+std::string toString() const {
+		std::string str = "Nombre:  ";
+		str += getnombre();
+		str += "  Descripcion:  ";
+		str += getdescripcion();
+		str += "  ID Seguro:  ";
+		str += std::to_string(getidSeguro());
+
+		return str;
+	}
 };
 
