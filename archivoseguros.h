@@ -1,7 +1,6 @@
 #pragma once
+#include <vector>//AGREGUE ESTO
 #include "seguros.h"
-//AGREGUE ESTO
-#include <vector>
 
 class archivoseguros {
 
