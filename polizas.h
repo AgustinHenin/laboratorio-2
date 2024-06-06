@@ -55,4 +55,30 @@ public:
     void setfechaVenta(Fecha f) { fechaVenta = f; }
     void setAnulada(bool a) { anulada = a; }
 
+
+//AGREGUE ESTE METODO
+
+std::string toString() const {
+		std::string str = "Modo de pago:  ";
+		str += getModoDePago();
+		str += "  Numero de poliza:  ";
+		str += std::to_string(getNdePoliza());
+		str += "  ID Cliente:  ";
+		str += std::to_string(getidCliente());
+		str += "  ID Seguro:  ";
+		str += std::to_string(getidSeguro());
+		str += "  Legajo del vendedor:  ";
+		str += std::to_string(getLegajoVendedor());
+		str += "  Suma asegurada:  ";
+		str += std::to_string(getSuma());
+		str += "  Cuota:  ";
+		str += std::to_string(getCuota());
+		str += "  Fecha de venta:  ";
+		str += getFechaDeVenta().toString();
+
+		return str;
+
+	}
+
+
 };
