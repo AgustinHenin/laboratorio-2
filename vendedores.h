@@ -32,5 +32,34 @@ public:
     void setSueldo(float s) { sueldo = s; }
     void setfechaDeIngreso(Fecha f) { fechaIngreso = f; }
     void setActivo(bool a) { activo = a; }
+
+//AGREGUE ESTO
+	std::string toString() const {
+		std::string str = "Nombre:  ";
+		str += getNombre();
+		str += "  Apellido:  ";
+		str += getApellido();
+		str += "  DNI:  ";
+		str += std::to_string(getDNI());
+		str += "  Fecha de nacimiento:  ";
+		str += getNacimiento().toString();
+		str += "  Legajo:  ";
+		str += std::to_string(getLegajo());
+		str += "  Sueldo:  ";
+		str += std::to_string(getSueldo());
+		str += "  Fecha de ingreso:  ";
+		str += getFechaDeIngreso().toString();
+
+		return str;
+	}
+
+	std::string toStringNombreYApellido() {
+		std::string str = "Nombre:  ";
+		str += getNombre();
+		str += "  Apellido:  ";
+		str += getApellido();
+
+		return str;
+	}
 };
 
