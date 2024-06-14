@@ -82,4 +82,37 @@ public:
 		}
 		return vectorClientes;
 	}
+
+
+//AGREGO
+
+    bool crearcopia() {
+        clientes reg;
+        FILE* p = AbrirArchivo("rb");
+        FILE* pbak;
+        pbak = fopen("clientes.bak", "wb");
+        if (p == NULL) {
+            return false;
+        }
+        while (fread(&reg, sizeof reg, 1, p) == 1) {
+            fwrite(&reg, sizeof reg, 1, pbak);
+        }
+        fclose(p);
+        fclose(pbak);
+    }
+
+    bool restaurarcopia() {
+        clientes reg;
+        FILE* p = AbrirArchivo("wb");
+        FILE* pbak;
+        pbak = fopen("clientes.bak", "rb");
+        if (p == NULL) {
+            return false;
+        }
+        while (fread(&reg, sizeof reg, 1, pbak) == 1) {
+            fwrite(&reg, sizeof reg, 1, p);
+        }
+        fclose(p);
+        fclose(pbak);
+    }
 };
