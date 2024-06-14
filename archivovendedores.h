@@ -74,5 +74,38 @@ std::vector<vendedores> LeerArchivoAlmacenarEnVector() {
 		return vectorVendedores;
 	}
 
+
+//AGREGO
+
+    bool crearcopia() {
+        vendedores reg;
+        FILE* p = AbrirArchivo("rb");
+        FILE* pbak;
+        pbak = fopen("vendedores.bak", "wb");
+        if (p == NULL) {
+            return false;
+        }
+        while (fread(&reg, sizeof reg, 1, p) == 1) {
+            fwrite(&reg, sizeof reg, 1, pbak);
+        }
+        fclose(p);
+        fclose(pbak);
+    }
+
+    bool restaurarcopia() {
+        vendedores reg;
+        FILE* p = AbrirArchivo("wb");
+        FILE* pbak;
+        pbak = fopen("vendedores.bak", "rb");
+        if (p == NULL) {
+            return false;
+        }
+        while (fread(&reg, sizeof reg, 1, pbak) == 1) {
+            fwrite(&reg, sizeof reg, 1, p);
+        }
+        fclose(p);
+        fclose(pbak);
+    }
+
 };
 
