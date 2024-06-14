@@ -52,5 +52,37 @@ public:
         return escribio;
     }
 
+
+//AGREGO
+
+    bool crearcopia() {
+        segurosXcliente reg;
+        FILE* p = AbrirArchivo("rb");
+        FILE* pbak;
+        pbak = fopen("segurosxcliente.bak", "wb");
+        if (p == NULL) {
+            return false;
+        }
+        while (fread(&reg, sizeof reg, 1, p) == 1) {
+            fwrite(&reg, sizeof reg, 1, pbak);
+        }
+        fclose(p);
+        fclose(pbak);
+    }
+
+    bool restaurarcopia() {
+        segurosXcliente reg;
+        FILE* p = AbrirArchivo("wb");
+        FILE* pbak;
+        pbak = fopen("segurosxcliente.bak", "rb");
+        if (p == NULL) {
+            return false;
+        }
+        while (fread(&reg, sizeof reg, 1, pbak) == 1) {
+            fwrite(&reg, sizeof reg, 1, p);
+        }
+        fclose(p);
+        fclose(pbak);
+    }
 };
 
