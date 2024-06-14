@@ -1,13 +1,10 @@
-#pragma once
 #include <iostream>
 #include <cstring>
 #include <string>
 #include<cstdio>
 #include <cstdlib>
-#include "archivoclientes.h"
-#include "archivovendedores.h"
-#include "archivopolizas.h"
-#include "archivoseguros.h"
+#include "gestionpolizas.h"
+#include "gestionclientes.h"
 #include "archivoapercibimientos.h"
 
 using namespace std;
@@ -21,6 +18,8 @@ public:
 		archivovendedores av;
 		archivoseguros as;
 		archivoapercibimientos aa;
+		archivoexc aec;
+		archivosxc asc;
 		while (true) {
 			system("cls");
 			cout << "1. Crear copia de seguridad " << endl;
@@ -52,6 +51,8 @@ public:
 					break;
 				case 3:
 					ac.crearcopia();
+					aec.crearcopia();
+					asc.crearcopia();
 					break;
 				case 4:
 					as.crearcopia();
@@ -99,6 +100,8 @@ public:
 					break;
 				case 3:
 					ac.restaurarcopia();
+					aec.restaurarcopia();
+					asc.restaurarcopia();
 					break;
 				case 4:
 					as.restaurarcopia();
@@ -129,4 +132,3 @@ public:
 		}
 	}
 };
-
