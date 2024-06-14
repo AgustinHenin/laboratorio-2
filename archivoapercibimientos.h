@@ -51,6 +51,39 @@ public:
         fclose(p);
         return escribio;
     }
+
+
+    //AGREGO
+
+    bool crearcopia() {
+        apercibimientos reg;
+        FILE* p = AbrirArchivo("rb");
+        FILE* pbak;
+        pbak = fopen("apercibimientos.bak", "wb");
+        if (p == NULL) {
+            return false;
+        }
+        while (fread(&reg, sizeof reg, 1, p) == 1) {
+            fwrite(&reg, sizeof reg, 1, pbak);
+        }
+        fclose(p);
+        fclose(pbak);
+    }
+
+    bool restaurarcopia() {
+        apercibimientos reg;
+        FILE* p = AbrirArchivo("wb");
+        FILE* pbak;
+        pbak = fopen("apercibimientos.bak", "rb");
+        if (p == NULL) {
+            return false;
+        }
+        while (fread(&reg, sizeof reg, 1, pbak) == 1) {
+            fwrite(&reg, sizeof reg, 1, p);
+        }
+        fclose(p);
+        fclose(pbak);
+    }
     
 };
 
