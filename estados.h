@@ -22,5 +22,13 @@ public:
 
     void setnombre(const char* n) { strcpy(nombre, n); }
     void setidEstado(int id) { idEstado = id; }
+
+std::string toString() const {
+		std::string str = "Nombre:  ";
+		str += getnombre();
+		str += "  idEstado:  ";
+		str += getidEstado();
+		return str;
+	}
 };
 
