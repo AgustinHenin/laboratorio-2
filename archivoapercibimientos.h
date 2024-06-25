@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "apercibimientos.h"
 
 class archivoapercibimientos {
@@ -52,6 +53,22 @@ public:
         return escribio;
     }
 
+std::vector<apercibimientos> LeerArchivoAlmacenarEnVector() {
+		std::vector<apercibimientos> vectorApercibimientos;
+		int cant = contarRegistros();
+		for (int i = 0; i < cant; i++) {
+			vectorApercibimientos.push_back(leerRegistro(i));
+		}
+		return vectorApercibimientos;
+	}
+
+	void GuardarVectorApercibimientoEnArchivo(const std::vector<apercibimientos>& vectorApercibimientos) {
+		FILE* p = AbrirArchivo("wb");
+		for (const apercibimientos& apercibimiento : vectorApercibimientos) {
+			fwrite(&apercibimiento, sizeof apercibimiento, 1, p);
+		}
+		fclose(p);
+	}
 
     //AGREGO
 
