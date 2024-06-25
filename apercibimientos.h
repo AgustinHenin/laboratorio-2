@@ -34,5 +34,20 @@ public:
     void setmotivo(int mot) { motivo = mot; }
     void setfecha(Fecha f) { fecha = f; }
 
+std::string toString() const {
+		std::string str = "Legajo:  ";
+		str += std::to_string(getlegajo());
+		str += "  Motivo:  ";
+		str += std::to_string(getmotivo());
+		str += "  Fecha:  ";
+		str += std::to_string(Fecha().getdia());
+		str += "/";
+		str += std::to_string(Fecha().getmes());
+		str += "/";
+		str += std::to_string(Fecha().getanio());
+
+		return str;
+	}
+
 };
 
