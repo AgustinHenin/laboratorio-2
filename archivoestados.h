@@ -61,5 +61,14 @@ public:
             return 1;
         }
     }
+std::vector<estados> LeerArchivoAlmacenarEnVector() {
+		std::vector<estados> vectorEstados;
+		int cant = contarRegistros();
+		for (int i = 0; i < cant; i++) {
+			vectorEstados.push_back(leerRegistro(i));
+		}
+		return vectorEstados;
+	}
+
 };
 
