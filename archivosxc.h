@@ -84,5 +84,15 @@ public:
         fclose(p);
         fclose(pbak);
     }
+
+std::vector<segurosXcliente>  LeerArchivoAlmacenarEnVector() {
+		std::vector<segurosXcliente> vectorSegurosXcliente;
+		int cant = contarRegistros();
+		for (int i = 0; i < cant; i++) {
+			vectorSegurosXcliente.push_back(leerRegistro(i));
+		}
+		return vectorSegurosXcliente;
+	}
+
 };
 
