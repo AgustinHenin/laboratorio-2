@@ -22,5 +22,14 @@ public:
 
     void setmotivo(const char* n) { strcpy(motivo, n); }
     void setidMotivo(int id) { idMotivo = id; }
+
+std::string toString() const {
+		std::string str = "IdMotivo:  ";
+		str += getidMotivo();
+		str += "  Motivo:  ";
+		str += getmotivo();
+
+		return str;
+	}
 };
 
