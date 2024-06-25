@@ -90,5 +90,22 @@ public:
         fclose(p);
         fclose(pbak);
     }
+std::vector<estadoXcliente> LeerArchivoAlmacenarEnVector() {
+		std::vector<estadoXcliente> vectorEstadoXcliente;
+		int cant = contarRegistros();
+		for (int i = 0; i < cant; i++) {
+			vectorEstadoXcliente.push_back(leerRegistro(i));
+		}
+		return vectorEstadoXcliente;
+	}
+
+	void GuardarVectorEstadoXClienteEnArchivo(const std::vector<estadoXcliente>& vectorEstadoXcliente) {
+		FILE* p = AbrirArchivo("wb");
+		for (const estadoXcliente& estadoXcliente : vectorEstadoXcliente) {
+			fwrite(&estadoXcliente, sizeof estadoXcliente, 1, p);
+		}
+		fclose(p);
+	}
+
 };
 
