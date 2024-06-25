@@ -62,5 +62,14 @@ public:
             return 1;
         }
     }
+
+std::vector<motivosapercibimiento> LeerArchivoAlmacenarEnVector() {
+		std::vector<motivosapercibimiento> vectorMotivosApercibimientos;
+		int cant = contarRegistros();
+		for (int i = 0; i < cant; i++) {
+			vectorMotivosApercibimientos.push_back(leerRegistro(i));
+		}
+		return vectorMotivosApercibimientos;
+	}
 };
 
