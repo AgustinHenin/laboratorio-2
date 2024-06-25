@@ -1,8 +1,11 @@
 #pragma once
 #include <vector>
+#include <algorithm> // Para std::transform
+#include <cctype>    // Para std::toupper
 #include "clientes.h"
 #include "vendedores.h"
 #include "seguros.h"
+#include "polizas.h"
 
 class GestionVectores {
 public:
