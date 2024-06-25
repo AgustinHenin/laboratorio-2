@@ -76,7 +76,13 @@ public:
 		return vectorPolizas;
 	}
 
-
+void GuardarVectorPolizaEnArchivoPoliza(const std::vector<polizas>& vectorPolizas) {
+		FILE* p = AbrirArchivo("wb");
+		for (const polizas& poliza : vectorPolizas) {
+			fwrite(&poliza, sizeof poliza, 1, p);
+		}
+		fclose(p);
+	}
 //AGREGO
 
     bool crearcopia() {
