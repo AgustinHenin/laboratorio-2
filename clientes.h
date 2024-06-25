@@ -31,10 +31,10 @@ public:
 
 //Agregue esto 
 std::string toString() const {
-		std::string str = "Nombre:  ";
-		str += getNombre();
-		str += "  Apellido:  ";
+		std::string str = "Apellido: ";
 		str += getApellido();
+		str += "   Nombre:";
+		str += getNombre();
 		str += "  DNI:  ";
 		str += std::to_string(getDNI());
 		str += "  Fecha de nacimiento:  ";
@@ -50,6 +50,7 @@ std::string toString() const {
 
 		return str;
 	}
+
 	std::string toString2() const {
 		std::string str = "Nombre:  ";
 		str += getNombre();
