@@ -5,12 +5,11 @@
 using namespace std;
 
 int main() {
-
-
+	
 	gestionventas gv;
 	GestionSupervisor gs;
 	backup b;
-
+	
 	while (true) {
 		system("cls");
 		cout << "SISTEMA DE GESTION CALL CENTER" << endl << endl;
@@ -35,20 +34,10 @@ int main() {
 			system("pause");
 			break;
 		case 0:
-            return 0;
+                        return 0;
 			break;
 		}
 	}
-
-
-/*
-    motivosapercibimiento c;
-    archivomotivos ac;
-    c.setidMotivo(ac.siguiente());
-    c.setmotivo("Desobodecer indicaciones del supervisor");
-
-    ac.grabarRegistro(c);
-*/
 
 	return 0;
 }
