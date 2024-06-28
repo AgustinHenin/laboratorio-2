@@ -402,7 +402,7 @@ void GestionSupervisor::SubMenuPolizas() {
 				for (polizas& poliza : vectorPolizas) {
 					if (poliza.getNdePoliza() == nro) {
 						b = false;
-						poliza.setAnulada(false);
+						poliza.setAnulada(true);  //cambio false por true
 						archivopolizas().GuardarVectorPolizaEnArchivoPoliza(vectorPolizas);
 						cout << "Poliza anulada exitosamente" << endl;
 						break;
@@ -520,7 +520,7 @@ void GestionSupervisor::SubMenuVentas() {
 		f2.cargar();
 
 		for (const polizas& poliza : vectorPolizas) {
-			if (poliza.getFechaDeVenta().getanio() >= f1.getanio() && poliza.getFechaDeVenta().getanio() <= f2.getanio()) {
+			if (f1 <= poliza.getFechaDeVenta() && poliza.getFechaDeVenta() <= f2) {   //cambio forma de comparar, operador definido en clase fecha
 				cout << poliza.toString() << endl;
 			}
 		}
@@ -813,7 +813,7 @@ void GestionSupervisor::SubMenuInformes() {
 			for (const polizas& poliza : vectorPolizas) {
 				if (seguro.getidSeguro() == poliza.getidSeguro()) {
 					//poliza.getFechaDeVenta().getdia() >= f1.getdia() && poliza.getFechaDeVenta().getmes() == f1.getmes() && poliza.getFechaDeVenta().getanio() == f1.getanio() && poliza.getFechaDeVenta().getdia() <= f2.getdia() && poliza.getFechaDeVenta().getmes() == f2.getmes() && poliza.getFechaDeVenta().getanio() == f2.getanio()
-					if (poliza.getFechaDeVenta().toString() >= f1.toString() && poliza.getFechaDeVenta().toString() <= f1.toString()) {
+					if (f1 <= poliza.getFechaDeVenta() && poliza.getFechaDeVenta() <= f2) { //cambio la forma de comparar, operador definido en clase fecha
 						cont++;
 						recaudacion += poliza.getCuota();
 					}
