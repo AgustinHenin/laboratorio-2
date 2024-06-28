@@ -1,4 +1,3 @@
-#pragma once
 #include "archivopolizas.h"
 #include "archivoclientes.h"
 #include "archivovendedores.h"
@@ -10,7 +9,7 @@
 class gestionpolizas
 {
 public:
-    void listarpolizas() {
+    void mostrarpoliza(int npol) {
         polizas p;
         archivopolizas archipol;
         clientes c;
@@ -23,7 +22,7 @@ public:
         int cant1 = archipol.contarRegistros();
         for (i = 0; i < cant1; i++) {
             p = archipol.leerRegistro(i);
-            if (p.getAnulada() == false) {
+            if (p.getNdePoliza() == npol) {
                 int cant2 = archicli.contarRegistros();
                 for (j = 0; j < cant2; j++) {
                     c = archicli.leerRegistro(j);
@@ -36,6 +35,9 @@ public:
                                 for (u = 0; u < cant4; u++) {
                                     s = archiseg.leerRegistro(u);
                                     if (p.getidSeguro() == s.getidSeguro()) {
+                                        if (p.getAnulada() == true) {
+                                            cout << endl << "POLIZA ANULADA" << endl;
+                                        }
                                         cout << endl << "NUMERO DE POLIZA: " << p.getNdePoliza() << endl;
                                         cout << "FECHA DE EMICION: ";
                                         p.getFechaDeVenta().mostrar();
@@ -81,23 +83,23 @@ public:
         system("cls");
         cout << "CARGA DE VENTAS" << endl << endl;
         cout << "-----------------------------------" << endl;
-        cout << "ID DEL CLIENTE: " << p.getidCliente() << endl;
-        cout << "LEGAJO DEL VENDEDOR: ";
+        cout << "ID del cliente: " << p.getidCliente() << endl;
+        cout << "Legajo del vendedor: ";
         cin >> legajo;
         p.setLegajo(legajo);
-        cout << "ID DEL SEGURO: ";
+        cout << "ID del seguro: ";
         cin >> seguro;
         p.setidSeguro(seguro);
-        cout << "SUMA ASEGURADA: $";
+        cout << "Suma asegurada: $";
         cin >> suma;
         p.setSuma(suma);
-        cout << "MONTO A PAGAR: $";
+        cout << "Monto a pagar: $";
         cout << cuotaseguro(suma, seguro) << endl;
         p.setCuota(cuotaseguro(suma, seguro));
-        cout << "FECHA: " << endl;
+        cout << "Fecha: " << endl;
         f.cargar();
         p.setfechaVenta(f);
-        cout << "MEDIO DE PAGO: ";
+        cout << "Medio de pago: ";
         cargarcadena(mediopago, 19);
         p.setModoDePago(mediopago);
         cout << "   -----------------------------------" << endl;
@@ -116,6 +118,10 @@ public:
             system("pause");
             break;
         case 2:
+            break;
+        default:
+            cout << "Opcion no valida" << endl;
+            system("pause");
             break;
         }
     }
