@@ -16,8 +16,8 @@ public:
     void mostrar() {}
 
 
-    int getidSeguro() { return idSeguro; }
-    int getidCliente() { return idCliente; }
+    int getidSeguro() const { return idSeguro; } //agrego const
+    int getidCliente() const { return idCliente; } //agrego const
 
     void setidSeguro(int s) { idSeguro = s; }
     void setidCliente(int c) { idCliente = c; }
