@@ -11,9 +11,12 @@ public:
 	void menuvendedor() {
 		while (true) {
 			system("cls");
-			cout << "1. GESTIONAR LISTA DE CLIENTES " << endl;
-			cout << "2. BUSCAR FICHA POR ID" << endl;
-			cout << "3. VOLVER" << endl;
+			cout << "...............MENU VENDEDOR................." << endl << endl;
+			cout << "1. Gestionar lista de clientes " << endl;
+			cout << "2. Buscar ficha por ID" << endl;
+			cout << "0. Salir" << endl;
+			cout << "------------------------------------------------" << endl;
+			cout << "Ingrese una opcion: ";
 			int op;
 			cin >> op;
 			switch (op) {
@@ -23,14 +26,17 @@ public:
 				break;
 			case 2:
 				int id;
-				cout << "ID DEL CLIENTE: ";
+				cout << "ID del cliente: ";
 				cin >> id;
-				
-				gc.fichacliente(id);
+				uno(id);
 				system("pause");
 				break;
-			case 3:
+			case 0:
 				return;
+				break;
+			default:
+				cout << "Opcion no valida" << endl;
+				system("pause");
 				break;
 			}
 		}
@@ -57,10 +63,12 @@ public:
 				system("cls");
 				gc.fichacliente(i+1);
 				cout << "MENU" << endl;
-				cout << "1. MODIFICAR DATOS DE CONTACTO " << endl;
-				cout << "2. CARGAR VENTA" << endl;
-				cout << "3. CLASIFICAR LLAMADO Y AVANZAR" << endl;
-				cout << "4. VOLVER" << endl;
+				cout << "1. Modificar datos de contacto " << endl;
+				cout << "2. Cargar venta" << endl;
+				cout << "3. Clasificar llamado y avanzar" << endl;
+				cout << "0. Volver" << endl;
+				cout << "------------------------------------" << endl;
+				cout << "Ingrese una opcion: ";
 				int op;
 				cin >> op;
 				switch (op) {
@@ -77,18 +85,53 @@ public:
 					system("pause");
 					llamar = false;
 					break;
-				case 4:
-					volver = true;
+				case 0:
+					return;
 					break;
-				case 5:
-					gp.listarpolizas();
+				default:
+					cout << "Opcion no valida" << endl;
 					system("pause");
 					break;
 				}
-				
+
 			}
 
 		}
 		cout << "no hay mas clientes";
+	}
+
+	void uno(int id) {
+		bool llamar = true;
+		while (llamar == true) {
+			system("cls");
+			gc.fichacliente(id);
+			cout << "MENU" << endl;
+			cout << "1. Modificar datos de contacto " << endl;
+			cout << "2. Cargar venta" << endl;
+			cout << "3. Clasificar llamado y avanzar" << endl;
+			cout << "-------------------------------------" << endl;
+			cout << "Ingrese una opcion: ";
+			int op;
+			cin >> op;
+			switch (op) {
+			case 1:
+				gc.modificardatos(id);
+				system("pause");
+				break;
+			case 2:
+				gp.cargadepoliza(id);
+				system("pause");
+				break;
+			case 3:
+				gc.clasificar(id);
+				system("pause");
+				llamar = false;
+				break;
+			default:
+				cout << "Opcion no valida" << endl;
+				system("pause");
+				break;
+			}
+		}
 	}
 };
