@@ -96,4 +96,27 @@ std::string toString() {
 			break;
 		}
 	}
+
+	bool operator <= (Fecha f) {
+		if (anio < f.getanio()) {
+			return true;
+		}
+		if (anio == f.getanio()) {
+			if (mes < f.getmes()) {
+				return true;
+			}
+			if (mes == f.getmes()) {
+				if (dia < f.getdia()) {
+					return true;
+				}
+				if (dia == f.getdia()) {
+					return true;
+				}
+			}
+		}
+		else {
+			return false;
+		}
+	}
+
 };
