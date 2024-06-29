@@ -59,6 +59,7 @@ void GestionSupervisor::menuSupervisor() {
 }
 
 void GestionSupervisor::SubMenuClientes() {
+
 	while (true) {
 		vectorClientes = archivoclientes().LeerArchivoAlmacenarEnVector();  //agrego esto para que se vean los cambios que se hagan al usar el programa, sino hay que cerrar y volver a abrir
 		system("cls");
@@ -183,7 +184,12 @@ void GestionSupervisor::SubMenuClientes() {
 				cout << estado.toString() << endl;
 			}
 			cout << "------------------------------------------------------------------------------" << endl;
-			cout << "Ingrese el id del estado";
+			for (const estadoXcliente& estadoxcliente : vectorEstadoXcliente) {
+				cout << estadoxcliente.toString() << endl << endl;
+			}
+
+			cout << "------------------------------------------------------------------------------" << endl;
+			cout << "Ingrese el id del estado: ";
 			int idEstado;
 			if (ValidarEntradaTeclado(idEstado)) {
 				for (const estadoXcliente& estadoXcliente : vectorEstadoXcliente) {
@@ -192,6 +198,7 @@ void GestionSupervisor::SubMenuClientes() {
 							if (cliente.getidCliente() == estadoXcliente.getidCliente()) {
 								cout << cliente.toString() << endl;
 								cout << endl;
+								break;
 							}
 						}
 					}
