@@ -35,19 +35,17 @@ public:
     void setfecha(Fecha f) { fecha = f; }
 
 std::string toString() const {
-		std::string str = "Legajo:  ";
-		str += std::to_string(getlegajo());
-		str += "  Motivo:  ";
-		str += std::to_string(getmotivo());
-		str += "  Fecha:  ";
-		str += std::to_string(Fecha().getdia());
-		str += "/";
-		str += std::to_string(Fecha().getmes());
-		str += "/";
-		str += std::to_string(Fecha().getanio());
+	std::string	str = "  Fecha apercibimiento:  ";
+	str += std::to_string(fecha.getdia());
+	str += "/";
+	str += std::to_string(fecha.getmes());
+	str += "/";
+	str += std::to_string(fecha.getanio());
+	str += "  Motivo:  ";
+	str += std::to_string(getmotivo());
 
-		return str;
-	}
+	return str;
+}
 
 };
 
