@@ -758,7 +758,7 @@ void GestionSupervisor::SubMenuInformes() {
 				cout << "15% si el total recaudado es mayor a 100000 y menor a 200000" << endl;
 				cout << "20% si el total recaudado es mayor a 200000" << endl;
 				cout << "--------------------------------------------" << endl;
-				cout << " COMISIONES POR VENDEDOR " << mes << " DE " << anio << endl;
+				cout << " Comisiones por vendedor en " << Fecha().toStringMes(mes) << " del " << anio << endl << endl;
 
 				vector<float> vectorRecaudacionPorVendedor;
 
@@ -777,28 +777,27 @@ void GestionSupervisor::SubMenuInformes() {
 					vectorRecaudacionPorVendedor.push_back(recaudacion);
 
 				}
-				cout << left << setw(30) << "VENDEDOR" << "|" << setw(15) << "TOTAL" << "|" << setw(15) << "% DE COMISION" << setw(15) << "COMISION" << endl;
+				cout << left << setw(30) << "VENDEDOR" << "|" << setw(15) << "TOTAL" << "|" << setw(15) << "% DE COMISION" << "|" << setw(15) << "COMISION" << endl;
 				cout << string(75, '-') << endl;
 
 				int i = 0;
 				for (const vendedores& vendedor : vectorVendedores) {
-					cout << left << setw(30) << vendedor.getApellido() << "," << vendedor.getNombre() << "|" << setw(15) << "$" << vectorRecaudacionPorVendedor[i] << "|" << setw(15);
+					cout << left << setw(15) << vendedor.getApellido() << setw(15) << vendedor.getNombre() << "|" << setw(15) << ("$" + to_string(vectorRecaudacionPorVendedor[i])) << "|" << setw(15);
 					if (vectorRecaudacionPorVendedor[i] > 0 && vectorRecaudacionPorVendedor[i] < 100000) {
 						cout << "10%" << "|" << "$" << vectorRecaudacionPorVendedor[i] * 0.1 << endl;
-					}
-					else if (vectorRecaudacionPorVendedor[i] > 100000 && vectorRecaudacionPorVendedor[i] < 200000) {
+					} else if (vectorRecaudacionPorVendedor[i] > 100000 && vectorRecaudacionPorVendedor[i] < 200000) {
 						cout << "15%" << "|" << "$" << vectorRecaudacionPorVendedor[i] * 0.15 << endl;
-					}
-					else if (vectorRecaudacionPorVendedor[i] > 200000) {
+					} else if (vectorRecaudacionPorVendedor[i] > 200000) {
 						cout << "20%" << "|" << "$" << vectorRecaudacionPorVendedor[i] * 0.2 << endl;
-					}
-					else if (vectorRecaudacionPorVendedor[i] == 0) {
+					} else if (vectorRecaudacionPorVendedor[i] == 0) {
 						cout << "0%" << "|" << "$" << 0 << endl;
 					}
 					i++;
 
 				}
 			}
+			cout << endl;
+
 		}
 
 	}break;
@@ -818,7 +817,7 @@ void GestionSupervisor::SubMenuInformes() {
 			float recaudacion = 0;
 			for (const polizas& poliza : vectorPolizas) {
 				if (seguro.getidSeguro() == poliza.getidSeguro()) {
-					//poliza.getFechaDeVenta().getdia() >= f1.getdia() && poliza.getFechaDeVenta().getmes() == f1.getmes() && poliza.getFechaDeVenta().getanio() == f1.getanio() && poliza.getFechaDeVenta().getdia() <= f2.getdia() && poliza.getFechaDeVenta().getmes() == f2.getmes() && poliza.getFechaDeVenta().getanio() == f2.getanio()
+
 					if (f1 <= poliza.getFechaDeVenta() && poliza.getFechaDeVenta() <= f2) { //cambio la forma de comparar, operador definido en clase fecha
 						cont++;
 						recaudacion += poliza.getCuota();
@@ -848,6 +847,7 @@ void GestionSupervisor::SubMenuInformes() {
 	}
 	system("pause");
 }
+
 
 void GestionSupervisor::CargarVectores() {
 	vectorClientes = archivoclientes().LeerArchivoAlmacenarEnVector();
