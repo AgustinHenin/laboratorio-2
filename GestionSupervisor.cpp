@@ -60,6 +60,7 @@ void GestionSupervisor::menuSupervisor() {
 
 void GestionSupervisor::SubMenuClientes() {
 	while (true) {
+		vectorClientes = archivoclientes().LeerArchivoAlmacenarEnVector();  //agrego esto para que se vean los cambios que se hagan al usar el programa, sino hay que cerrar y volver a abrir
 		system("cls");
 		cout << endl;
 		cout << "...............CLIENTES................." << endl;
@@ -322,26 +323,26 @@ void GestionSupervisor::SubMenuSeguros() {
 		cout << "Ingrese el Id del cliente: ";
 		int idCliente;
 		bool b = true, b1 = true;
-		cout << "--------------------------------------------------------" << endl;
-		while (b) {
-			if (ValidarEntradaTeclado(idCliente)) {
-				for (const segurosXcliente& segurosXcliente : vectorSegurosXcliente) {
-					if (segurosXcliente.getidCliente() == idCliente) {
-						b1 = false;
-						for (const seguros& seguro : vectorSeguros) {
-							if (segurosXcliente.getidSeguro() == seguro.getidSeguro()) {
-								cout << seguro.getnombre() << endl;
-								break;
-							}
+		//cout << "--------------------------------------------------------" << endl;
+		// saco el ciclo while porque no es necesario y requiere pasos extra para salir despues de mostrar los seguros
+		if (ValidarEntradaTeclado(idCliente)) {
+			for (const segurosXcliente& segurosXcliente : vectorSegurosXcliente) {
+				if (segurosXcliente.getidCliente() == idCliente) {
+					b1 = false;
+					for (const seguros& seguro : vectorSeguros) {
+						if (segurosXcliente.getidSeguro() == seguro.getidSeguro()) {
+							cout << seguro.getnombre() << endl;
+							break;
 						}
-
 					}
+
 				}
 			}
 		}
+		
 		if (b1) {
 			cout << endl;
-			cout << "NO SE ENCONTRO CLIENTE CON ESE ID" << endl;
+			cout << "NO SE ENCONTRARON SEGUROS PARA EL CLIENTE CON ESE ID" << endl; //cambio un poco el mensaje
 		}
 	}break;
 	case 0: {
@@ -356,6 +357,7 @@ void GestionSupervisor::SubMenuSeguros() {
 }
 
 void GestionSupervisor::SubMenuPolizas() {
+	vectorPolizas = archivopolizas().LeerArchivoAlmacenarEnVector(); //agrego esto para que se vean las polizas que se creen al usar el programa, sino hay que cerrar y volver a abrir
 	system("cls");
 	cout << endl;
 	cout << "...............POLIZAS................." << endl;
@@ -444,6 +446,7 @@ void GestionSupervisor::SubMenuPolizas() {
 }
 
 void GestionSupervisor::SubMenuVentas() {
+	vectorPolizas = archivopolizas().LeerArchivoAlmacenarEnVector(); //agrego esto para que se vean las polizas que se creen al usar el programa, sino hay que cerrar y volver a abrir
 	system("cls");
 	cout << endl;
 	cout << "...............VENTAS................." << endl;
@@ -492,24 +495,15 @@ void GestionSupervisor::SubMenuVentas() {
 	}break;
 	case 3: {
 		system("cls");
-		std::sort(vectorPolizas.begin(), vectorPolizas.end(), GestionVectores::CompararPorSeguro);
-		for (int i = 0; i < vectorPolizas.size(); i++) {
-			if (i == 0) {
-				cout << "Ventas de " << vectorSeguros[i].getnombre();
-				cout << vectorPolizas[i].toString() << endl;
-			}
-			else {
-				if (vectorPolizas[i].getidSeguro() == vectorPolizas[i - 1].getidSeguro()) {
-					cout << vectorPolizas[i].toString() << endl;
-				}
-				else {
-					cout << endl;
-					cout << "----------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
-					cout << "Ventas de " << vectorSeguros[i].getnombre();
-					cout << vectorPolizas[i].toString() << endl;
-				}
-			}
-		}
+		std::sort(vectorPolizas.begin(), vectorPolizas.end(), GestionVectores::CompararPorSeguro);  //
+		for (int i = 0; i < vectorSeguros.size(); i++) {                                            //cambie este metodo porque no funcionaba
+			cout << endl << "Ventas de " << vectorSeguros[i].getnombre() << endl;               //el ciclo daba una vuelta por cada poliza y si
+			for (const polizas& poliza : vectorPolizas) {                                       //habia 0 o mas de 1 poliza de algun seguro empezaba
+				if (vectorSeguros[i].getidSeguro() == poliza.getidSeguro()) {               //a pedir el nombre en la posicion incorrecta del vector
+					cout << poliza.toString() << endl << endl;                          //de seguros
+				}                                                                           //
+			}                                                                                   //
+		}                                                                                           //
 
 	}break;
 	case 4: {
