@@ -582,7 +582,7 @@ void GestionSupervisor::SubMenuApercibimientos() {
 	cout << "...............APERCIBIMIENTOS................." << endl;
 	cout << endl;
 	cout << "1.Consulta de apercibimientos por vendedor" << endl;
-	cout << "2. Ingresar apercibimiento" << endl;
+	cout << "2.Ingresar apercibimiento" << endl;
 	cout << "0.Volver" << endl;
 	cout << "----------------------------------------------------" << endl;
 	cout << "Ingrese una opcion: ";
@@ -600,17 +600,20 @@ void GestionSupervisor::SubMenuApercibimientos() {
 				for (const vendedores& vendedor : vectorVendedores) {
 					if (vendedor.getLegajo() == legajo) {
 						b = false;
+						system("cls");
 						cout << ".........Motivos de apercibimientos.........." << endl;
 						cout << endl;
 						for (const motivosapercibimiento& motivo : vectorMotivosApercibimientos) {
 							cout << motivo.toString() << endl;
 						}
+						cout << "---------------------------------------------------------------------------------------" << endl;
 						cout << endl;
+						cout << "Apercibimientos del vendedor " << vendedor.getApellido() << " " << vendedor.getNombre() << " " << " :" << endl << endl;
 						for (const apercibimientos& apercibimiento : vectorApercibimientos) {
 							if (apercibimiento.getlegajo() == legajo) {
 								b2 = false;
-								cout << apercibimiento.toString() << endl;
-								cout << "--------------------------------------------" << endl;
+								cout << apercibimiento.toString() << endl << endl;
+
 							}
 						}
 					}
@@ -619,27 +622,28 @@ void GestionSupervisor::SubMenuApercibimientos() {
 			}
 		}
 		if (b) {
+
 			cout << endl;
 			cout << "NO EXISTE VENDEDOR CON ESE NUMERO DE LEGAJO" << endl;
 		}
-		if (b2) {
+		if (b == false && b2) {
 			cout << endl;
-			cout << "EL VENDEDOR NO TIENE APERCIBIMIENTOS" << endl;
+			cout << " NO TIENE APERCIBIMIENTOS" << endl << endl;;
 		}
 
 	}
 		  break;
 	case 2: {
 		system("cls");
-		cout << "Ingrese legajo del vendedor" << endl;
+		cout << "Ingrese legajo del vendedor: ";
 		int leg;
 		bool b = true, b1 = true, b2 = true;
 		while (b1) {
 			if (ValidarEntradaTeclado(leg)) {
 				b1 = false;
-				for (apercibimientos& apercibimiento : vectorApercibimientos) {
-					if (apercibimiento.getlegajo() == leg) {
-
+				for (vendedores& vendedor : vectorVendedores) {
+					if (vendedor.getLegajo() == leg) {
+						apercibimientos a;
 						b = false;
 						cout << "Ingrese la fecha" << endl;
 						Fecha fecha;
@@ -649,10 +653,11 @@ void GestionSupervisor::SubMenuApercibimientos() {
 						while (b2) {
 							if (ValidarEntradaTeclado(mot)) {
 								b2 = false;
-								apercibimiento.setfecha(fecha);
-								apercibimiento.setlegajo(leg);
-								apercibimiento.setmotivo(mot);
+								a.setfecha(fecha);
+								a.setlegajo(leg);
+								a.setmotivo(mot);
 
+								vectorApercibimientos.push_back(a);
 								archivoapercibimientos().GuardarVectorApercibimientoEnArchivo(vectorApercibimientos);
 								cout << "Apercibimiento cargado correctamente" << endl;
 
