@@ -69,9 +69,9 @@ std::string toString() const {
 		str += std::to_string(getidSeguro());
 		str += "  Legajo del vendedor:  ";
 		str += std::to_string(getLegajoVendedor());
-		str += "  Suma asegurada:  ";
+		str += "  Suma asegurada: $ ";
 		str += std::to_string(getSuma());
-		str += "  Cuota:  ";
+		str += "  Cuota: $ ";
 		str += std::to_string(getCuota());
 		str += "  Fecha de venta:  ";
 		str += getFechaDeVenta().toString();
