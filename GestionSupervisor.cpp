@@ -1,4 +1,5 @@
 
+
 #include <iomanip>
 #include <ctime>
 #include "algorithm"
@@ -184,12 +185,11 @@ void GestionSupervisor::SubMenuClientes() {
 				cout << estado.toString() << endl;
 			}
 			cout << "------------------------------------------------------------------------------" << endl;
-			
 			cout << "Ingrese el id del estado: ";
-			cout <<endl;
 			int idEstado;
 			if (ValidarEntradaTeclado(idEstado)) {
 				for (const estadoXcliente& estadoXcliente : vectorEstadoXcliente) {
+					cout << endl;
 					if (estadoXcliente.getidEstado() == idEstado) {
 						for (const clientes& cliente : vectorClientes) {
 							if (cliente.getidCliente() == estadoXcliente.getidCliente()) {
@@ -227,7 +227,7 @@ void GestionSupervisor::SubMenuClientes() {
 					}
 				}
 				if (b) {
-					cout << "No se encontro cliente con ese id";
+					cout << "No se encontro cliente con ese id" << endl;
 				}
 
 			}
@@ -316,9 +316,9 @@ void GestionSupervisor::SubMenuSeguros() {
 	case 1: {
 		system("cls");
 		std::sort(vectorSeguros.begin(), vectorSeguros.end(), GestionVectores::CompararPorNombre);
+		cout << "......Listado de seguros......" << endl << endl;
 		for (const seguros& seguro : vectorSeguros) {
-			cout << seguro.toString() << endl;;
-			cout << "----------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+			cout << seguro.toString() << endl << endl;
 
 		}
 	}break;
@@ -330,6 +330,8 @@ void GestionSupervisor::SubMenuSeguros() {
 		//cout << "--------------------------------------------------------" << endl;
 		// saco el ciclo while porque no es necesario y requiere pasos extra para salir despues de mostrar los seguros
 		if (ValidarEntradaTeclado(idCliente)) {
+			cout << endl;
+			cout << "SEGUROS: " << endl;
 			for (const segurosXcliente& segurosXcliente : vectorSegurosXcliente) {
 				if (segurosXcliente.getidCliente() == idCliente) {
 					b1 = false;
@@ -342,8 +344,9 @@ void GestionSupervisor::SubMenuSeguros() {
 
 				}
 			}
+			cout << endl;
 		}
-		
+
 		if (b1) {
 			cout << endl;
 			cout << "NO SE ENCONTRARON SEGUROS PARA EL CLIENTE CON ESE ID" << endl; //cambio un poco el mensaje
@@ -377,26 +380,26 @@ void GestionSupervisor::SubMenuPolizas() {
 	switch (opcion) {
 	case 1: {
 		system("cls");
-cout << "Ingrese numero de poliza: ";
-int nro;
-bool b = true, b1 = true;
-while (b1) {
-	if (ValidarEntradaTeclado(nro)) {
-		b1 = false;
-		for (const polizas& poliza : vectorPolizas) {
-			if (poliza.getNdePoliza() == nro) {
-				cout << "-------------------------------------------------------" << endl;
-				cout << poliza.toString() << endl;
-				b = false;
+		cout << "Ingrese numero de poliza: ";
+		int nro;
+		bool b = true, b1 = true;
+		while (b1) {
+			if (ValidarEntradaTeclado(nro)) {
+				b1 = false;
+				for (const polizas& poliza : vectorPolizas) {
+					if (poliza.getNdePoliza() == nro) {
+						cout << "-------------------------------------------------------" << endl;
+						cout << poliza.toString() << endl;
+						b = false;
+					}
+				}
 			}
 		}
-	}
-}
-if (b) {
-	cout << endl;
-	cout << "-------------------------------------------------------" << endl;
-	cout << "NO SE ENCONTRO POLIZA CON ESE NUMERO" << endl;
-}
+		if (b) {
+			cout << endl;
+			cout << "-------------------------------------------------------" << endl;
+			cout << "NO SE ENCONTRO POLIZA CON ESE NUMERO" << endl;
+		}
 	}break;
 	case 2: {
 		system("cls");
@@ -482,27 +485,28 @@ void GestionSupervisor::SubMenuVentas() {
 		std::sort(vectorPolizas.begin(), vectorPolizas.end(), GestionVectores::CompararPorLegajoVendedor);
 		for (int i = 0; i < vectorPolizas.size(); i++) {
 			if (i == 0) {
-				cout << "Ventas de " << GestionVectores::BuscarVendedorPorLegajo(vectorVendedores, vectorPolizas[i].getLegajoVendedor()).toStringNombreYApellido();
+				cout << "	VENTAS DE  " << GestionVectores::BuscarVendedorPorLegajo(vectorVendedores, vectorPolizas[i].getLegajoVendedor()).toStringNombreYApellido() << endl << endl;
 				cout << vectorPolizas[i].toString() << endl;
-			}
-			else {
+			} else {
 				if (vectorPolizas[i].getLegajoVendedor() == vectorPolizas[i - 1].getLegajoVendedor()) {
-					cout << vectorPolizas[i].toString() << endl;
-				}
-				else {
+					cout << vectorPolizas[i].toString() << endl << endl;
+				} else {
 					cout << endl;
 					cout << "----------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
-					cout << "Ventas de " << GestionVectores::BuscarVendedorPorLegajo(vectorVendedores, vectorPolizas[i].getLegajoVendedor()).toStringNombreYApellido();
-					cout << vectorPolizas[i].toString() << endl;;
+					cout << "	VENTAS DE  " << GestionVectores::BuscarVendedorPorLegajo(vectorVendedores, vectorPolizas[i].getLegajoVendedor()).toStringNombreYApellido() << endl << endl;
+
+					cout << vectorPolizas[i].toString() << endl << endl;
 				}
 			}
 		}
+
 	}break;
 	case 3: {
 		system("cls");
 		std::sort(vectorPolizas.begin(), vectorPolizas.end(), GestionVectores::CompararPorSeguro);  //
 		for (int i = 0; i < vectorSeguros.size(); i++) {                                            //cambie este metodo porque no funcionaba
-			cout << endl << "Ventas de " << vectorSeguros[i].getnombre() << endl;               //el ciclo daba una vuelta por cada poliza y si
+			cout << endl << "Ventas de seguros de " << vectorSeguros[i].getnombre() << endl;
+			cout << "--------------------------------------------------------------------------" << endl;//el ciclo daba una vuelta por cada poliza y si
 			for (const polizas& poliza : vectorPolizas) {                                       //habia 0 o mas de 1 poliza de algun seguro empezaba
 				if (vectorSeguros[i].getidSeguro() == poliza.getidSeguro()) {               //a pedir el nombre en la posicion incorrecta del vector
 					cout << poliza.toString() << endl << endl;                          //de seguros
@@ -528,6 +532,7 @@ void GestionSupervisor::SubMenuVentas() {
 	case 5: {
 		system("cls");
 		cout << "Ingrese el Id del seguro: ";
+		cout << "--------------------------------------" << endl;
 		int id;
 		bool b = true, b1 = true;
 		while (b1) {
@@ -551,6 +556,7 @@ void GestionSupervisor::SubMenuVentas() {
 	case 6: {
 		system("cls");
 		cout << "Ingrese el legajo del vendedor:";
+		cout << endl;
 		int legajo;
 		bool b = true, b1 = true;
 		while (b1) {
@@ -710,7 +716,7 @@ void GestionSupervisor::SubMenuInformes() {
 		cout << "Ingrese el anio: ";
 		int anio;
 		if (ValidarEntradaTeclado(anio)) {
-
+			cout << "--------------------------------" << endl;
 			vector<vector<float>> vectorRecaudacionesPorMes;
 			vectorRecaudacionesPorMes.resize(12);
 
@@ -730,12 +736,12 @@ void GestionSupervisor::SubMenuInformes() {
 			}
 
 			cout << left << setw(15) << "MES" << "|" << setw(15) << "RECAUDACION" << endl;
-			cout << string(32, '-') << endl;  // Imprime una línea de 32 caracteres '-'
+			cout << string(32, '-') << endl;
 
 			for (int i = 0; i < recaudacionMensual.size(); i++) {
-				cout << left << setw(15) << Fecha().toStringMes(i + 1) << "|" << setw(15) << recaudacionMensual[i] << endl;
+				cout << left << setw(15) << Fecha().toStringMes(i + 1) << "|$" << setw(15) << recaudacionMensual[i] << endl;
 			}
-
+			cout << endl;
 		}
 
 
@@ -751,10 +757,10 @@ void GestionSupervisor::SubMenuInformes() {
 			if (ValidarEntradaTeclado(mes)) {
 
 				system("cls");
-				cout << "Los porcentajes de comisiones son:" << endl;
-				cout << "10% si el total recaudado es menor a 100000" << endl;
-				cout << "15% si el total recaudado es mayor a 100000 y menor a 200000" << endl;
-				cout << "20% si el total recaudado es mayor a 200000" << endl;
+				cout << "Los porcentajes de comisiones son:" << endl << endl;
+				cout << "10% si el total recaudado es menor a $100000" << endl;
+				cout << "15% si el total recaudado es mayor a $100000 y menor a $200000" << endl;
+				cout << "20% si el total recaudado es mayor a $200000" << endl;
 				cout << "--------------------------------------------" << endl;
 				cout << " Comisiones por vendedor en " << Fecha().toStringMes(mes) << " del " << anio << endl << endl;
 
@@ -846,7 +852,6 @@ void GestionSupervisor::SubMenuInformes() {
 	system("pause");
 }
 
-
 void GestionSupervisor::CargarVectores() {
 	vectorClientes = archivoclientes().LeerArchivoAlmacenarEnVector();
 	vectorSeguros = archivoseguros().LeerArchivoAlmacenarEnVector();
@@ -895,5 +900,10 @@ bool GestionSupervisor::ValidarEntradaTeclado(T& datoIngresar) {
 	}
 	return true;
 }
+
+
+
+
+
 
 
