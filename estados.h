@@ -24,10 +24,10 @@ public:
     void setidEstado(int id) { idEstado = id; }
 
 std::string toString() const {
-	std::string str = "Nombre:  ";
-	str += getnombre();
-	str += "  idEstado:  ";
+	std::string str = "  idEstado: ";
 	str += std::to_string(getidEstado());
+	str += "  Nombre: ";
+	str += getnombre();
 	return str;
 }
 };
