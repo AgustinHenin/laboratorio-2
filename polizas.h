@@ -58,10 +58,8 @@ public:
 
 //AGREGUE ESTE METODO
 
-std::string toString() const {
-		std::string str = "Modo de pago:  ";
-		str += getModoDePago();
-		str += "  Numero de poliza:  ";
+	std::string toString() const {
+		std::string str = "  Numero de poliza:  ";
 		str += std::to_string(getNdePoliza());
 		str += "  ID Cliente:  ";
 		str += std::to_string(getidCliente());
@@ -73,12 +71,15 @@ std::string toString() const {
 		str += std::to_string(getSuma());
 		str += "  Cuota: $ ";
 		str += std::to_string(getCuota());
+		str += "Modo de pago:  ";
+		str += getModoDePago();
 		str += "  Fecha de venta:  ";
 		str += getFechaDeVenta().toString();
 
 		return str;
 
 	}
+};
 
 
 };
