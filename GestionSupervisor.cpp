@@ -377,25 +377,26 @@ void GestionSupervisor::SubMenuPolizas() {
 	switch (opcion) {
 	case 1: {
 		system("cls");
-		cout << "Ingrese numero de poliza: ";
-		int nro;
-		bool b = true, b1 = true;
-		while (b1) {
-			if (ValidarEntradaTeclado(nro)) {
-				b1 = false;
-				for (const polizas& poliza : vectorPolizas) {
-					if (poliza.getNdePoliza() == nro) {
-
-						cout << poliza.toString() << endl;
-						b = false;
-					}
-				}
+cout << "Ingrese numero de poliza: ";
+int nro;
+bool b = true, b1 = true;
+while (b1) {
+	if (ValidarEntradaTeclado(nro)) {
+		b1 = false;
+		for (const polizas& poliza : vectorPolizas) {
+			if (poliza.getNdePoliza() == nro) {
+				cout << "-------------------------------------------------------" << endl;
+				cout << poliza.toString() << endl;
+				b = false;
 			}
 		}
-		if (b) {
-			cout << endl;
-			cout << "NO SE ENCONTRO POLIZA CON ESE NUMERO" << endl;
-		}
+	}
+}
+if (b) {
+	cout << endl;
+	cout << "-------------------------------------------------------" << endl;
+	cout << "NO SE ENCONTRO POLIZA CON ESE NUMERO" << endl;
+}
 	}break;
 	case 2: {
 		system("cls");
