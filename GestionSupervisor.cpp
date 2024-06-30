@@ -184,12 +184,9 @@ void GestionSupervisor::SubMenuClientes() {
 				cout << estado.toString() << endl;
 			}
 			cout << "------------------------------------------------------------------------------" << endl;
-			for (const estadoXcliente& estadoxcliente : vectorEstadoXcliente) {
-				cout << estadoxcliente.toString() << endl << endl;
-			}
-
-			cout << "------------------------------------------------------------------------------" << endl;
+			
 			cout << "Ingrese el id del estado: ";
+			cout <<endl;
 			int idEstado;
 			if (ValidarEntradaTeclado(idEstado)) {
 				for (const estadoXcliente& estadoXcliente : vectorEstadoXcliente) {
