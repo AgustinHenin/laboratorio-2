@@ -30,9 +30,9 @@ public:
     void setdia(int a) { dia = a; }
     void setmes(int a) { mes = a; }
     void setanio(int a) { anio = a; }
-    int getdia() { return dia; }
-    int getmes() { return mes; }
-    int getanio() { return anio; }
+    int getdia() const { return dia; }
+    int getmes() const { return mes; }
+    int getanio() const { return anio; }
 
 //AGREGUE ESTE METODO
 std::string toString() {
