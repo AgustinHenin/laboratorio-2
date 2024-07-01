@@ -25,7 +25,7 @@ public:
 
 std::string toString() const {
 		std::string str = "IdMotivo:  ";
-		str += getidMotivo();
+		str += std::to_string(getidMotivo());
 		str += "  Motivo:  ";
 		str += getmotivo();
 
