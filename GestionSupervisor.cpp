@@ -1,4 +1,5 @@
-
+//agrego otro metodo de validacion que verifica que, en el archivo correpondiante, exista
+//un registro que coincida con el dato ingresado
 
 #include <iomanip>
 #include <ctime>
@@ -187,19 +188,33 @@ void GestionSupervisor::SubMenuClientes() {
 			cout << "------------------------------------------------------------------------------" << endl;
 			cout << "Ingrese el id del estado: ";
 			int idEstado;
-			if (ValidarEntradaTeclado(idEstado)) {
-				for (const estadoXcliente& estadoXcliente : vectorEstadoXcliente) {
-					cout << endl;
-					if (estadoXcliente.getidEstado() == idEstado) {
-						for (const clientes& cliente : vectorClientes) {
-							if (cliente.getidCliente() == estadoXcliente.getidCliente()) {
-								cout << cliente.toString() << endl;
-								cout << endl;
-								break;
+			archivoestados ae;
+			bool b = true, b1 = true;
+			while (b1) { // agrego while para que deje volver a intentar si se ingresa un dato invalido
+				if (ValidarEntradaTeclado(idEstado)) {
+					if (ae.validarestado(idEstado)) {
+						b1 = false;
+						for (const estadoXcliente& estadoXcliente : vectorEstadoXcliente) {
+							cout << endl;
+							if (estadoXcliente.getidEstado() == idEstado) {
+								b = false;
+								for (const clientes& cliente : vectorClientes) {
+									if (cliente.getidCliente() == estadoXcliente.getidCliente()) {
+										cout << cliente.toString() << endl;
+										cout << endl;
+										break;
+									}
+								}
 							}
 						}
 					}
+					else {
+						cout << "No se encontro estado con ese ID, intente de nuevo: ";
+					}
 				}
+			}
+			if (b) {
+				cout << "No se encontraron clientes con ese estado" << endl; // agrego
 			}
 
 		}break;
@@ -207,30 +222,49 @@ void GestionSupervisor::SubMenuClientes() {
 			system("cls");
 			cout << "Ingrese el Id del cliente: ";
 			int idCliente;
-			bool b = true;
-			if (ValidarEntradaTeclado(idCliente)) {
-				for (estadoXcliente& estadoXcliente : vectorEstadoXcliente) {
-					if (estadoXcliente.getidCliente() == idCliente) {
-						b = false;
-						cout << "Ingrese el codigo del nuevo estado del cliente: ";
-						int idEstado;
-						if (ValidarEntradaTeclado(idEstado)) {
-							//hacer validacion del estado
-							for (const estados& estado : vectorEstados) {
-								if (estado.getidEstado() == idEstado) {
-									estadoXcliente.setidEstado(idEstado);
-									archivoexc().GuardarVectorEstadoXClienteEnArchivo(vectorEstadoXcliente);
+			bool b = true, b1 = true, b2 = true;
+			archivoclientes ac;
+			archivoestados ae;
+			while (b1) {// agrego while para que deje volver a intentar si se ingresa un dato invalido
+				if (ValidarEntradaTeclado(idCliente)) {
+					if (ac.validarcliente(idCliente)) {
+						b1 = false;
+						for (estadoXcliente& estadoXcliente : vectorEstadoXcliente) {
+							if (estadoXcliente.getidCliente() == idCliente) {
+								b = false;
+								cout << "Ingrese el codigo del nuevo estado del cliente: ";
+								int idEstado;
+								while (b2) {
+									if (ValidarEntradaTeclado(idEstado)) {
+										if (ae.validarestado(idEstado)) {
+											b2 = false;
+											//hacer validacion del estado
+											for (const estados& estado : vectorEstados) {
+												if (estado.getidEstado() == idEstado) {
+													estadoXcliente.setidEstado(idEstado);
+													archivoexc().GuardarVectorEstadoXClienteEnArchivo(vectorEstadoXcliente);
+												}
+											}
+										}
+										else {
+											cout << "No se encontro estado con ese ID, intente de nuevo: ";
+										}
+									}
+									
 								}
 							}
 						}
-						break;
+					}
+					else {
+						cout << "No se encontro cliente con ese ID, intente de nuevo: ";
 					}
 				}
-				if (b) {
-					cout << "No se encontro cliente con ese id" << endl;
-				}
-
 			}
+			if (b) {
+				cout << "El cliente no fue contactado y no tiene un estado para cambiar" << endl;
+			}
+
+
 		} break;
 		case 0:
 			system("cls");
@@ -246,7 +280,7 @@ void GestionSupervisor::SubMenuClientes() {
 }
 
 void GestionSupervisor::SubMenuVendedores() {
-	while(true){ //agrego para que al terminar cada caso vuelva al submenu y no al menu supervisor
+	while (true) { //agrego para que al terminar cada caso vuelva al submenu y no al menu supervisor
 		system("cls");
 		cout << endl;
 		cout << "...............VENDEDORES................." << endl;
@@ -272,21 +306,23 @@ void GestionSupervisor::SubMenuVendedores() {
 			cout << "Ingrese legajo del vendedor: ";
 			int legajo;
 			bool b = true, b1 = true;
+			archivovendedores av;
 			while (b) {
 				if (ValidarEntradaTeclado(legajo)) {
-					b = false;
-					for (const vendedores& vendedor : vectorVendedores) {
-						if (vendedor.getLegajo() == legajo) {
-							b1 = false;
-							cout << "---------------------------------------------" << endl;
-							cout << vendedor.toString() << endl;
+					if (av.validarvendedor(legajo)) {
+						b = false;
+						for (const vendedores& vendedor : vectorVendedores) {
+							if (vendedor.getLegajo() == legajo) {
+								//b1 = false;
+								cout << "---------------------------------------------" << endl;
+								cout << vendedor.toString() << endl;
+							}
 						}
 					}
+					else {
+						cout << "No se encontro vendedor con ese legajo, intente de nuevo: ";
+					}
 				}
-			}
-			if (b1) {
-				cout << endl;
-				cout << "NO SE ENCONTRO VENDEDOR CON ESE NUMERO DE LEGAJO" << endl;
 			}
 		}break;
 		case 0: {
@@ -302,7 +338,7 @@ void GestionSupervisor::SubMenuVendedores() {
 }
 
 void GestionSupervisor::SubMenuSeguros() {
-	while(true){ //agrego para que al terminar cada caso vuelva al submenu y no al menu supervisor
+	while (true) { //agrego para que al terminar cada caso vuelva al submenu y no al menu supervisor
 		system("cls");
 		cout << endl;
 		cout << "...............SEGUROS................." << endl;
@@ -314,7 +350,7 @@ void GestionSupervisor::SubMenuSeguros() {
 		cout << "Ingrese una opcion: ";
 		int opcion;
 		cin >> opcion;
-	
+
 		switch (opcion) {
 		case 1: {
 			system("cls");
@@ -322,7 +358,7 @@ void GestionSupervisor::SubMenuSeguros() {
 			cout << "......Listado de seguros......" << endl << endl;
 			for (const seguros& seguro : vectorSeguros) {
 				cout << seguro.toString() << endl << endl;
-	
+
 			}
 		}break;
 		case 2: {
@@ -330,25 +366,31 @@ void GestionSupervisor::SubMenuSeguros() {
 			cout << "Ingrese el Id del cliente: ";
 			int idCliente;
 			bool b = true, b1 = true;
+			archivoclientes ac;
 			//cout << "--------------------------------------------------------" << endl;
 			while (b) { // vuelvo a poner el while, me di cuenta de que si sirve
 				if (ValidarEntradaTeclado(idCliente)) {
-					b = false;
-					cout << endl;
-					cout << "SEGUROS: " << endl;
-					for (const segurosXcliente& segurosXcliente : vectorSegurosXcliente) {
-						if (segurosXcliente.getidCliente() == idCliente) {
-							b1 = false;
-							for (const seguros& seguro : vectorSeguros) {
-								if (segurosXcliente.getidSeguro() == seguro.getidSeguro()) {
-									cout << seguro.getnombre() << endl;
-									break;
+					if (ac.validarcliente(idCliente)) {
+						b = false;
+						cout << endl;
+						cout << "SEGUROS: " << endl;
+						for (const segurosXcliente& segurosXcliente : vectorSegurosXcliente) {
+							if (segurosXcliente.getidCliente() == idCliente) {
+								b1 = false;
+								for (const seguros& seguro : vectorSeguros) {
+									if (segurosXcliente.getidSeguro() == seguro.getidSeguro()) {
+										cout << seguro.getnombre() << endl;
+										break;
+									}
 								}
+
 							}
-		
 						}
 					}
-					cout << endl;
+					else {
+						cout << "No se encontro clinte con ese ID, intente de nuevo: ";
+					}
+					//cout << endl;
 				}
 			}
 			if (b1) {
@@ -369,7 +411,7 @@ void GestionSupervisor::SubMenuSeguros() {
 }
 
 void GestionSupervisor::SubMenuPolizas() {
-	while(true){ //agrego para que al terminar cada caso vuelva al submenu y no al menu supervisor
+	while (true) { //agrego para que al terminar cada caso vuelva al submenu y no al menu supervisor
 		vectorPolizas = archivopolizas().LeerArchivoAlmacenarEnVector(); //agrego esto para que se vean las polizas que se creen al usar el programa, sino hay que cerrar y volver a abrir
 		system("cls");
 		cout << endl;
@@ -382,29 +424,30 @@ void GestionSupervisor::SubMenuPolizas() {
 		cout << "Ingrese una opcion: ";
 		int opcion;
 		cin >> opcion;
-	
+
 		switch (opcion) {
 		case 1: {
 			system("cls");
 			cout << "Ingrese numero de poliza: ";
 			int nro;
 			bool b = true, b1 = true;
+			archivopolizas ap;
 			while (b1) {
 				if (ValidarEntradaTeclado(nro)) {
-					b1 = false;
-					for (const polizas& poliza : vectorPolizas) {
-						if (poliza.getNdePoliza() == nro) {
-							cout << "-------------------------------------------------------" << endl;
-							cout << poliza.toString() << endl;
-							b = false;
+					if (ap.validarpoliza(nro)) {
+						b1 = false;
+						for (const polizas& poliza : vectorPolizas) {
+							if (poliza.getNdePoliza() == nro) {
+								cout << "-------------------------------------------------------" << endl;
+								cout << poliza.toString() << endl;
+								//b = false;
+							}
 						}
 					}
+					else {
+						cout << "No se encontro poliza con ese numero, intente de nuevo: ";
+					}
 				}
-			}
-			if (b) {
-				cout << endl;
-				cout << "-------------------------------------------------------" << endl;
-				cout << "NO SE ENCONTRO POLIZA CON ESE NUMERO" << endl;
 			}
 		}break;
 		case 2: {
@@ -412,41 +455,43 @@ void GestionSupervisor::SubMenuPolizas() {
 			cout << "Ingrese numero de poliza que desea anular: ";
 			int nro;
 			bool b = true, b1 = true;
+			archivopolizas ap;
 			while (b1) {
 				if (ValidarEntradaTeclado(nro)) {
-					b1 = false;
-					for (polizas& poliza : vectorPolizas) {
-						if (poliza.getNdePoliza() == nro) {
-							b = false;
-							poliza.setAnulada(true);  //cambio false por true
-							archivopolizas().GuardarVectorPolizaEnArchivoPoliza(vectorPolizas);
-							cout << "Poliza anulada exitosamente" << endl;
-							break;
+					if (ap.validarpoliza(nro)) {
+						b1 = false;
+						for (polizas& poliza : vectorPolizas) {
+							if (poliza.getNdePoliza() == nro) {
+								//b = false;
+								poliza.setAnulada(true);  //cambio false por true
+								archivopolizas().GuardarVectorPolizaEnArchivoPoliza(vectorPolizas);
+								cout << "Poliza anulada exitosamente" << endl;
+								break;
+							}
 						}
+					}
+					else {
+						cout << "No se encontro poliza con ese numero, intente de nuevo: ";
 					}
 				}
 			}
-			if (b) {
-				cout << endl;
-				cout << "NO SE ENCONTRO POLIZA CON ESE NUMERO" << endl;
-			}
-	
+
 			/*archivopolizas archPol;
 			polizas poliza;
-	
+
 			int cant = archPol.contarRegistros();
 			for (int i = 0; i < cant; i++) {
 				poliza = archPol.leerRegistro(i);
 				if (poliza.getNdePoliza() == nro) {
 					poliza.setAnulada(false);
 					archPol.grabarRegistro(poliza);
-	
+
 					vectorPolizas = archivopolizas().LeerArchivoAlmacenarEnVector();
-	
+
 					cout << "Poliza anulada exitosamente" << endl;
 				} else { cout << "No se encontro la poliza" << endl; }
 			}*/
-	
+
 		} break;
 		case 0: {
 			system("cls");
@@ -461,7 +506,7 @@ void GestionSupervisor::SubMenuPolizas() {
 }
 
 void GestionSupervisor::SubMenuVentas() {
-	while(true){ //agrego para que al terminar cada caso vuelva al submenu y no al menu supervisor
+	while (true) { //agrego para que al terminar cada caso vuelva al submenu y no al menu supervisor
 		vectorPolizas = archivopolizas().LeerArchivoAlmacenarEnVector(); //agrego esto para que se vean las polizas que se creen al usar el programa, sino hay que cerrar y volver a abrir
 		system("cls");
 		cout << endl;
@@ -486,7 +531,7 @@ void GestionSupervisor::SubMenuVentas() {
 				cout << poliza.toString() << endl;
 				cout << "----------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
 			}
-	
+
 		}break;
 		case 2: {
 			system("cls");
@@ -495,19 +540,21 @@ void GestionSupervisor::SubMenuVentas() {
 				if (i == 0) {
 					cout << "	VENTAS DE  " << GestionVectores::BuscarVendedorPorLegajo(vectorVendedores, vectorPolizas[i].getLegajoVendedor()).toStringNombreYApellido() << endl << endl;
 					cout << vectorPolizas[i].toString() << endl;
-				} else {
+				}
+				else {
 					if (vectorPolizas[i].getLegajoVendedor() == vectorPolizas[i - 1].getLegajoVendedor()) {
 						cout << vectorPolizas[i].toString() << endl << endl;
-					} else {
+					}
+					else {
 						cout << endl;
 						cout << "----------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
 						cout << "	VENTAS DE  " << GestionVectores::BuscarVendedorPorLegajo(vectorVendedores, vectorPolizas[i].getLegajoVendedor()).toStringNombreYApellido() << endl << endl;
-	
+
 						cout << vectorPolizas[i].toString() << endl << endl;
 					}
 				}
 			}
-	
+
 		}break;
 		case 3: {
 			system("cls");
@@ -521,7 +568,7 @@ void GestionSupervisor::SubMenuVentas() {
 					}                                                                           //
 				}                                                                                   //
 			}                                                                                           //
-	
+
 		}break;
 		case 4: {
 			system("cls");
@@ -529,36 +576,42 @@ void GestionSupervisor::SubMenuVentas() {
 			Fecha f1, f2;
 			f1.cargar();
 			f2.cargar();
-	
+
 			for (const polizas& poliza : vectorPolizas) {
 				if (f1 <= poliza.getFechaDeVenta() && poliza.getFechaDeVenta() <= f2) {   //cambio forma de comparar, operador definido en clase fecha
 					cout << poliza.toString() << endl;
 				}
 			}
-	
+
 		}break;
 		case 5: {
 			system("cls");
-			cout << "Ingrese el Id del seguro: ";
+			cout << "Ingrese el Id del seguro: " << endl;
 			cout << "--------------------------------------" << endl;
 			int id;
 			bool b = true, b1 = true;
+			archivoseguros as;
 			while (b1) {
 				if (ValidarEntradaTeclado(id)) {
-					b1 = false;
-					for (const polizas& poliza : vectorPolizas) {
-						if (poliza.getidSeguro() == id) {
-							cout << poliza.toString() << endl;
-							cout << "--------------------------------------" << endl;
-							b = false;
-	
+					if (as.validarseguro(id)) {
+						b1 = false;
+						for (const polizas& poliza : vectorPolizas) {
+							if (poliza.getidSeguro() == id) {
+								cout << poliza.toString() << endl;
+								cout << "--------------------------------------" << endl;
+								b = false;
+
+							}
 						}
+					}
+					else {
+						cout << "No se encontro seguro con ese ID, intente de nuevo: ";
 					}
 				}
 			}
 			if (b) {
 				cout << endl;
-				cout << "NO EXISTEN VENTAS CON ESE ID O EL ID INGRESADO NO ES VALIDO" << endl;
+				cout << "Aun no se relizaron ventas de ese seguro" << endl;
 			}
 		}break;
 		case 6: {
@@ -567,21 +620,27 @@ void GestionSupervisor::SubMenuVentas() {
 			cout << endl;
 			int legajo;
 			bool b = true, b1 = true;
+			archivovendedores av;
 			while (b1) {
 				if (ValidarEntradaTeclado(legajo)) {
-					b1 = false;
-					for (const polizas& poliza : vectorPolizas) {
-						if (poliza.getLegajoVendedor() == legajo) {
-							b = false;
-							cout << poliza.toString() << endl;
-							cout << "--------------------------------------------" << endl;
+					if (av.validarvendedor(legajo)) {
+						b1 = false;
+						for (const polizas& poliza : vectorPolizas) {
+							if (poliza.getLegajoVendedor() == legajo) {
+								b = false;
+								cout << poliza.toString() << endl;
+								cout << "--------------------------------------------" << endl;
+							}
 						}
+					}
+					else {
+						cout << "No se encontro vendedor con ese legajo, intente de nuevo: ";
 					}
 				}
 			}
 			if (b) {
 				cout << endl;
-				cout << "NO EXISTEN VENTAS DE ESE VENDEDOR O EL LEGAJO INGRESADO NO ES VALIDO" << endl;
+				cout << "Aun no hay ventas de ese vendedor" << endl;
 			}
 		}break;
 		case 0: {
@@ -597,7 +656,7 @@ void GestionSupervisor::SubMenuVentas() {
 }
 
 void GestionSupervisor::SubMenuApercibimientos() {
-	while(true){ //agrego para que al terminar cada caso vuelva al submenu y no al menu supervisor
+	while (true) { //agrego para que al terminar cada caso vuelva al submenu y no al menu supervisor
 		system("cls");
 		cout << endl;
 		cout << "...............APERCIBIMIENTOS................." << endl;
@@ -615,43 +674,44 @@ void GestionSupervisor::SubMenuApercibimientos() {
 			cout << "Ingrese legajo del vendedor: ";
 			int legajo;
 			bool b = true, b1 = true, b2 = true;
+			archivovendedores av;
 			while (b1) {
 				if (ValidarEntradaTeclado(legajo)) {
-					b1 = false;
-					for (const vendedores& vendedor : vectorVendedores) {
-						if (vendedor.getLegajo() == legajo) {
-							b = false;
-							system("cls");
-							cout << ".........Motivos de apercibimientos.........." << endl;
-							cout << endl;
-							for (const motivosapercibimiento& motivo : vectorMotivosApercibimientos) {
-								cout << motivo.toString() << endl;
-							}
-							cout << "---------------------------------------------------------------------------------------" << endl;
-							cout << endl;
-							cout << "Apercibimientos del vendedor " << vendedor.getApellido() << " " << vendedor.getNombre() << " " << " :" << endl << endl;
-							for (const apercibimientos& apercibimiento : vectorApercibimientos) {
-								if (apercibimiento.getlegajo() == legajo) {
-									b2 = false;
-									cout << apercibimiento.toString() << endl << endl;
-	
+					if (av.validarvendedor(legajo)) {
+						b1 = false;
+						for (const vendedores& vendedor : vectorVendedores) {
+							if (vendedor.getLegajo() == legajo) {
+								//b = false;
+								system("cls");
+								cout << ".........Motivos de apercibimientos.........." << endl;
+								cout << endl;
+								for (const motivosapercibimiento& motivo : vectorMotivosApercibimientos) {
+									cout << motivo.toString() << endl;
+								}
+								cout << "---------------------------------------------------------------------------------------" << endl;
+								cout << endl;
+								cout << "Apercibimientos del vendedor " << vendedor.getApellido() << " " << vendedor.getNombre() << " " << " :" << endl << endl;
+								for (const apercibimientos& apercibimiento : vectorApercibimientos) {
+									if (apercibimiento.getlegajo() == legajo) {
+										b2 = false;
+										cout << apercibimiento.toString() << endl << endl;
+
+									}
 								}
 							}
+
 						}
-	
+					}
+					else {
+						cout << "No se encontro vendedor/a con ese legajo, intente de nuevo: ";
 					}
 				}
 			}
-			if (b) {
-	
+			if (b2) {
 				cout << endl;
-				cout << "NO EXISTE VENDEDOR CON ESE NUMERO DE LEGAJO" << endl;
+				cout << "Vendedor/a no tiene apercibimientos" << endl << endl;;
 			}
-			if (b == false && b2) {
-				cout << endl;
-				cout << " NO TIENE APERCIBIMIENTOS" << endl << endl;;
-			}
-	
+
 		}
 			  break;
 		case 2: {
@@ -659,42 +719,52 @@ void GestionSupervisor::SubMenuApercibimientos() {
 			cout << "Ingrese legajo del vendedor: ";
 			int leg;
 			bool b = true, b1 = true, b2 = true;
+			archivovendedores av;
+			archivomotivos am;
 			while (b1) {
 				if (ValidarEntradaTeclado(leg)) {
-					b1 = false;
-					for (vendedores& vendedor : vectorVendedores) {
-						if (vendedor.getLegajo() == leg) {
-							apercibimientos a;
-							b = false;
-							cout << "Ingrese la fecha" << endl;
-							Fecha fecha;
-							fecha.cargar();//validar entrada en este metodo
-							cout << "Ingrese el motivo: ";
-							int mot;
-							while (b2) {
-								if (ValidarEntradaTeclado(mot)) {
-									b2 = false;
-									a.setfecha(fecha);
-									a.setlegajo(leg);
-									a.setmotivo(mot);
-	
-									vectorApercibimientos.push_back(a);
-									archivoapercibimientos().GuardarVectorApercibimientoEnArchivo(vectorApercibimientos);
-									cout << "Apercibimiento cargado correctamente" << endl;
-	
+					if (av.validarvendedor(leg)) {
+						b1 = false;
+						for (vendedores& vendedor : vectorVendedores) {
+							if (vendedor.getLegajo() == leg) {
+								apercibimientos a;
+								//b = false;
+								cout << "Ingrese la fecha" << endl;
+								Fecha fecha;
+								fecha.cargar();//validar entrada en este metodo
+								fecha.validar();
+								cout << "Ingrese ID del motivo: ";
+								int mot;
+								while (b2) {
+									if (ValidarEntradaTeclado(mot)) {
+										if (am.validarmotivo(mot)) {
+											b2 = false;
+											a.setfecha(fecha);
+											a.setlegajo(leg);
+											a.setmotivo(mot);
+
+											vectorApercibimientos.push_back(a);
+											archivoapercibimientos().GuardarVectorApercibimientoEnArchivo(vectorApercibimientos);
+											cout << "Apercibimiento cargado correctamente" << endl;
+										}
+										else {
+											cout << "No se encontro motivo con ese ID, intente de nuevo: ";
+										}
+									}
 								}
+								
 							}
-							break;
+
 						}
-	
+					}
+					else {
+						cout << "No se encontro vendedor/a con ese legajo, intente de nuevo: ";
 					}
 				}
 			}
-			if (b) {
-				cout << "NO SE ENCONTRO VENDEDOR CON ESE NUMERO DE LEGAJO" << endl;
-			}
-	
-	
+			
+
+
 		}break;
 		case 0: {
 			system("cls");
@@ -709,7 +779,7 @@ void GestionSupervisor::SubMenuApercibimientos() {
 }
 
 void GestionSupervisor::SubMenuInformes() {
-	while(true){ //agrego para que al terminar cada caso vuelva al submenu y no al menu supervisor
+	while (true) { //agrego para que al terminar cada caso vuelva al submenu y no al menu supervisor
 		vectorPolizas = archivopolizas().LeerArchivoAlmacenarEnVector(); //agrego esto para que se tengan en cuenta las polizas que se creen al usar el programa, sino hay que cerrar y volver a abrir
 		system("cls");
 		cout << endl;
@@ -732,13 +802,13 @@ void GestionSupervisor::SubMenuInformes() {
 				cout << "--------------------------------" << endl;
 				vector<vector<float>> vectorRecaudacionesPorMes;
 				vectorRecaudacionesPorMes.resize(12);
-	
+
 				for (const polizas& poliza : vectorPolizas) {
 					if (poliza.getFechaDeVenta().getanio() == anio) {
 						vectorRecaudacionesPorMes[poliza.getFechaDeVenta().getmes() - 1].push_back(poliza.getCuota());
 					}
 				}
-	
+
 				vector<float> recaudacionMensual;
 				for (const vector<float>& RecaudacionPorMes : vectorRecaudacionesPorMes) {
 					float recaudacion = 0;
@@ -747,28 +817,28 @@ void GestionSupervisor::SubMenuInformes() {
 					}
 					recaudacionMensual.push_back(recaudacion);
 				}
-	
+
 				cout << left << setw(15) << "MES" << "|" << setw(15) << "RECAUDACION" << endl;
 				cout << string(32, '-') << endl;
-	
+
 				for (int i = 0; i < recaudacionMensual.size(); i++) {
 					cout << left << setw(15) << Fecha().toStringMes(i + 1) << "|$" << setw(15) << recaudacionMensual[i] << endl;
 				}
 				cout << endl;
 			}
-	
-	
+
+
 		}break;
 		case 2: {
 			system("cls");
 			cout << "Ingrese el anio: ";
 			int anio;
 			if (ValidarEntradaTeclado(anio)) {
-	
+
 				cout << "Ingrese el mes: ";
 				int mes;
 				if (ValidarEntradaTeclado(mes)) {
-	
+
 					system("cls");
 					cout << "Los porcentajes de comisiones son:" << endl << endl;
 					cout << "10% si el total recaudado es menor a $100000" << endl;
@@ -776,47 +846,50 @@ void GestionSupervisor::SubMenuInformes() {
 					cout << "20% si el total recaudado es mayor a $200000" << endl;
 					cout << "--------------------------------------------" << endl;
 					cout << " Comisiones por vendedor en " << Fecha().toStringMes(mes) << " del " << anio << endl << endl;
-	
+
 					vector<float> vectorRecaudacionPorVendedor;
-	
+
 					for (const vendedores& vendedor : vectorVendedores) {
-	
+
 						float recaudacion = 0;
 						for (const polizas& poliza : vectorPolizas) {
 							if (vendedor.getLegajo() == poliza.getLegajoVendedor()) {
 								if (poliza.getFechaDeVenta().getanio() == anio && poliza.getFechaDeVenta().getmes() == mes) {
-	
+
 									recaudacion += poliza.getCuota();
 								}
-	
+
 							}
 						}
 						vectorRecaudacionPorVendedor.push_back(recaudacion);
-	
+
 					}
 					cout << left << setw(30) << "VENDEDOR" << "|" << setw(15) << "TOTAL" << "|" << setw(15) << "% DE COMISION" << "|" << setw(15) << "COMISION" << endl;
 					cout << string(75, '-') << endl;
-	
+
 					int i = 0;
 					for (const vendedores& vendedor : vectorVendedores) {
 						cout << left << setw(15) << vendedor.getApellido() << setw(15) << vendedor.getNombre() << "|" << setw(15) << ("$" + to_string(vectorRecaudacionPorVendedor[i])) << "|" << setw(15);
 						if (vectorRecaudacionPorVendedor[i] > 0 && vectorRecaudacionPorVendedor[i] < 100000) {
 							cout << "10%" << "|" << "$" << vectorRecaudacionPorVendedor[i] * 0.1 << endl;
-						} else if (vectorRecaudacionPorVendedor[i] > 100000 && vectorRecaudacionPorVendedor[i] < 200000) {
+						}
+						else if (vectorRecaudacionPorVendedor[i] > 100000 && vectorRecaudacionPorVendedor[i] < 200000) {
 							cout << "15%" << "|" << "$" << vectorRecaudacionPorVendedor[i] * 0.15 << endl;
-						} else if (vectorRecaudacionPorVendedor[i] > 200000) {
+						}
+						else if (vectorRecaudacionPorVendedor[i] > 200000) {
 							cout << "20%" << "|" << "$" << vectorRecaudacionPorVendedor[i] * 0.2 << endl;
-						} else if (vectorRecaudacionPorVendedor[i] == 0) {
+						}
+						else if (vectorRecaudacionPorVendedor[i] == 0) {
 							cout << "0%" << "|" << "$" << 0 << endl;
 						}
 						i++;
-	
+
 					}
 				}
 				cout << endl;
-	
+
 			}
-	
+
 		}break;
 		case 3: {
 			system("cls");
@@ -824,17 +897,17 @@ void GestionSupervisor::SubMenuInformes() {
 			Fecha f1, f2;
 			f1.cargar();
 			f2.cargar();
-	
+
 			archivoseguros archSeg;
 			vector<int> vectorCantidadPorTipoSeguro;
 			vector<float>vectorRecaudacion;
-	
+
 			for (const seguros& seguro : vectorSeguros) {
 				int cont = 0;
 				float recaudacion = 0;
 				for (const polizas& poliza : vectorPolizas) {
 					if (seguro.getidSeguro() == poliza.getidSeguro()) {
-	
+
 						if (f1 <= poliza.getFechaDeVenta() && poliza.getFechaDeVenta() <= f2) { //cambio la forma de comparar, operador definido en clase fecha
 							cont++;
 							recaudacion += poliza.getCuota();
@@ -844,10 +917,10 @@ void GestionSupervisor::SubMenuInformes() {
 				vectorCantidadPorTipoSeguro.push_back(cont);
 				vectorRecaudacion.push_back(recaudacion);
 			}
-	
+
 			cout << left << setw(15) << "SEGURO" << "|" << setw(15) << "CANTIDAD" << "|" << setw(15) << "RECAUDACION" << endl;
 			cout << string(55, '-') << endl;
-	
+
 			int i = 0;
 			for (const seguros& seguro : vectorSeguros) {
 				cout << left << setw(15) << seguro.getnombre() << "|" << setw(15) << vectorCantidadPorTipoSeguro[i] << "|" << setw(15) << vectorRecaudacion[i] << endl;
@@ -908,7 +981,7 @@ bool GestionSupervisor::ValidarEntradaTeclado(T& datoIngresar) {
 		std::cin.clear();
 		// Descarta la entrada inválida hasta el siguiente salto de línea
 		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-		system("cls");
+		//system("cls");
 		std::cout << "Entrada invalida. Por favor, ingrese un tipo de dato valido: " << endl;
 		return false;
 	}
