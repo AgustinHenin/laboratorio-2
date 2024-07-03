@@ -119,4 +119,30 @@ std::string toString() {
 		}
 	}
 
+	bool validar() {
+		while (true) {
+			if (anio > 1900) {
+				if (0 < mes && mes < 13) {
+					if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12) {
+						if (0 < dia && dia < 32) {
+							return true;
+						}
+					}
+					if (mes == 4 || mes == 6 || mes == 9 || mes == 11) {
+						if (0 < dia && dia < 31) {
+							return true;
+						}
+					}
+					if (mes == 2) {
+						if (0 < dia && dia < 29) {
+							return true;
+						}
+					}
+				}
+			}
+			cout << "La fecha ingresada no es valida, intente de nuevo: " << endl;
+			cargar();
+		}
+	}
+
 };
