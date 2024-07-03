@@ -101,37 +101,44 @@ public:
 	}
 
 	void uno(int id) {
+		archivoclientes ac;
+		int cant = ac.contarRegistros();
 		bool llamar = true;
-		while (llamar == true) {
-			system("cls");
-			gc.fichacliente(id);
-			cout << "MENU" << endl;
-			cout << "1. Modificar datos de contacto " << endl;
-			cout << "2. Cargar venta" << endl;
-			cout << "3. Clasificar llamado y avanzar" << endl;
-			cout << "-------------------------------------" << endl;
-			cout << "Ingrese una opcion: ";
-			int op;
-			cin >> op;
-			switch (op) {
-			case 1:
-				gc.modificardatos(id);
-				system("pause");
-				break;
-			case 2:
-				gp.cargadepoliza(id);
-				system("pause");
-				break;
-			case 3:
-				gc.clasificar(id);
-				system("pause");
-				llamar = false;
-				break;
-			default:
-				cout << "Opcion no valida" << endl;
-				system("pause");
-				break;
+		if (id > 0 && id <= cant) {
+			while (llamar == true) {
+				system("cls");
+				gc.fichacliente(id);
+				cout << "MENU" << endl;
+				cout << "1. Modificar datos de contacto " << endl;
+				cout << "2. Cargar venta" << endl;
+				cout << "3. Clasificar llamado y avanzar" << endl;
+				cout << "-------------------------------------" << endl;
+				cout << "Ingrese una opcion: ";
+				int op;
+				cin >> op;
+				switch (op) {
+				case 1:
+					gc.modificardatos(id);
+					system("pause");
+					break;
+				case 2:
+					gp.cargadepoliza(id);
+					system("pause");
+					break;
+				case 3:
+					gc.clasificar(id);
+					system("pause");
+					llamar = false;
+					break;
+				default:
+					cout << "Opcion no valida" << endl;
+					system("pause");
+					break;
+				}
 			}
+		}
+		else {
+			cout << "No se encontro cliente con ese ID" << endl;
 		}
 	}
 };
