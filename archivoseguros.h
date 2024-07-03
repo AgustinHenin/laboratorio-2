@@ -126,6 +126,14 @@ std::vector<seguros> LeerArchivoAlmacenarEnVector() {
         }
     }
 
+    bool validarseguro(int id) {
+        int cant = contarRegistros();
+        if (id > 0 && id <= cant) {
+            return true;
+        }
+        return false;
+    }
+
 };
 
 
