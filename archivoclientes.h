@@ -115,4 +115,12 @@ public:
         fclose(p);
         fclose(pbak);
     }
+
+    bool validarcliente(int id) {
+        int cant = contarRegistros();
+        if (id > 0 && id <= cant) {
+            return true;
+        }
+        return false;
+    }
 };
