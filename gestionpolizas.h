@@ -102,9 +102,29 @@ public:
         cout << "CARGA DE VENTAS" << endl << endl;
         cout << "-----------------------------------" << endl;
         cout << "ID del cliente: " << p.getidCliente() << endl;
-        legajo = av.pedirlegajovalido();
+        cout << "Legajo del vendedor: ";
+        while (true) {
+            if (ValidarEntradaTeclado(legajo)) {
+                if (av.validarvendedor(legajo)) {
+                    break;
+                }
+                else {
+                    cout << "No se encontro vendedor con ese legajo, intente de nuevo: ";
+                }
+            }
+        }
         p.setLegajo(legajo);
-        seguro = as.pedirsegurovalido();
+        cout << "ID del seguro: ";
+        while (true) {
+            if (ValidarEntradaTeclado(seguro)) {
+                if (as.validarseguro(seguro)) {
+                    break;
+                }
+                else {
+                    cout << "No se encontro seguro con ese ID, intente de nuevo: ";
+                }
+            }
+        }
         p.setidSeguro(seguro);
         cout << "Suma asegurada: $";
         while (true) {
