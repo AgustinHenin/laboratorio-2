@@ -114,5 +114,13 @@ void GuardarVectorPolizaEnArchivoPoliza(const std::vector<polizas>& vectorPoliza
         fclose(p);
         fclose(pbak);
     }
+
+    bool validarpoliza(int id) {
+        int cant = contarRegistros();
+        if (id > 0 && id <= cant) {
+            return true;
+        }
+        return false;
+    }
 };
 
