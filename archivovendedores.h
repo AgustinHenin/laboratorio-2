@@ -107,24 +107,6 @@ std::vector<vendedores> LeerArchivoAlmacenarEnVector() {
         fclose(pbak);
     }
 
-    int pedirlegajovalido() {
-        vendedores v;
-        archivovendedores av;
-        int cant, legajo;
-        cout << "Legajo del vendedor: ";
-        cin >> legajo;
-        while (true) {
-            cant = av.contarRegistros();
-            for (int i = 0; i < cant; i++) {
-                v = av.leerRegistro(i);
-                if (legajo == v.getLegajo()) {
-                    return legajo;
-                }
-            }
-            cout << "No se encontro vendedor con ese legajo, intente de nuevo: ";
-            cin >> legajo;
-        }
-    }
 
     bool validarvendedor(int id) {
         int cant = contarRegistros();
