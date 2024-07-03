@@ -70,5 +70,14 @@ std::vector<estados> LeerArchivoAlmacenarEnVector() {
 		return vectorEstados;
 	}
 
+
+    bool validarestado(int id) {
+        int cant = contarRegistros();
+        if (id > 0 && id <= cant) {
+            return true;
+        }
+        return false;
+    }
+
 };
 
