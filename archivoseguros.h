@@ -107,6 +107,25 @@ std::vector<seguros> LeerArchivoAlmacenarEnVector() {
         fclose(pbak);
     }
 
+    int pedirsegurovalido() {
+        seguros s;
+        archivoseguros as;
+        int cant, seguro;
+        cout << "ID del seguro: ";
+        cin >> seguro;
+        while (true) {
+            cant = as.contarRegistros();
+            for (int i = 0; i < cant; i++) {
+                s = as.leerRegistro(i);
+                if (seguro == s.getidSeguro()) {
+                    return seguro;
+                }
+            }
+            cout << "No se encontro seguro con ese ID, intente de nuevo: ";
+            cin >> seguro;
+        }
+    }
+
 };
 
 
