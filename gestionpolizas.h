@@ -5,6 +5,7 @@
 #include "archivosxc.h"
 #include "archivoestados.h"
 #include "archivoexc.h"
+#include "algorithm"
 
 class gestionpolizas
 {
@@ -70,11 +71,28 @@ public:
         fflush(stdin);
     }
 
+    template<typename T>
+    bool ValidarEntradaTeclado(T& datoIngresar) {
+
+        if (!(cin >> datoIngresar)) {
+            // Limpia el estado de error de cin
+            std::cin.clear();
+            // Descarta la entrada inválida hasta el siguiente salto de línea
+            std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+            //system("cls");
+            std::cout << "Entrada invalida. Por favor, ingrese un tipo de dato valido: ";
+            return false;
+        }
+        return true;
+    }
+
     void cargadepoliza(int id) {
         polizas p;
         archivopolizas ap;
         segurosXcliente sxc;
         archivosxc asc;
+        archivovendedores av;
+        archivoseguros as;
         int legajo, seguro, suma;
         char mediopago[20];
         Fecha f;
@@ -84,20 +102,23 @@ public:
         cout << "CARGA DE VENTAS" << endl << endl;
         cout << "-----------------------------------" << endl;
         cout << "ID del cliente: " << p.getidCliente() << endl;
-        cout << "Legajo del vendedor: ";
-        cin >> legajo;
+        legajo = av.pedirlegajovalido();
         p.setLegajo(legajo);
-        cout << "ID del seguro: ";
-        cin >> seguro;
+        seguro = as.pedirsegurovalido();
         p.setidSeguro(seguro);
         cout << "Suma asegurada: $";
-        cin >> suma;
+        while (true) {
+            if (ValidarEntradaTeclado(suma)) {
+                break;
+            }
+        }
         p.setSuma(suma);
         cout << "Monto a pagar: $";
         cout << cuotaseguro(suma, seguro) << endl;
         p.setCuota(cuotaseguro(suma, seguro));
         cout << "Fecha: " << endl;
         f.cargar();
+        f.validar();
         p.setfechaVenta(f);
         cout << "Medio de pago: ";
         cargarcadena(mediopago, 19);
