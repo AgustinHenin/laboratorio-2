@@ -71,5 +71,14 @@ std::vector<motivosapercibimiento> LeerArchivoAlmacenarEnVector() {
 		}
 		return vectorMotivosApercibimientos;
 	}
+
+
+    bool validarmotivo(int id) {
+        int cant = contarRegistros();
+        if (id > 0 && id <= cant) {
+            return true;
+        }
+        return false;
+    }
 };
 
