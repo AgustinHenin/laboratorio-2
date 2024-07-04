@@ -2,8 +2,6 @@
 //un registro que coincida con el dato ingresado
 // agrego validaciones de fechas 
 
-//agrego otro metodo de validacion que verifica que, en el archivo correpondiante, exista
-//un registro que coincida con el dato ingresado
 
 #include <iomanip>
 #include <ctime>
