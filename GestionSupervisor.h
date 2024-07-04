@@ -44,5 +44,6 @@ private:
 	bool ValidarEntradaTeclado(T& datoIngresar);
 
 	int calcularEdad(int, int, int);
+bool validarMes(int& mes);
 
 };
