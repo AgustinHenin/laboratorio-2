@@ -325,12 +325,19 @@ void GestionSupervisor::SubMenuVendedores() {
 	while (true) { //agrego para que al terminar cada caso vuelva al submenu y no al menu supervisor
 		system("cls");
 		cout << endl;
-		cout << "...............VENDEDORES................." << endl;
-		cout << endl;
-		cout << "1. Listado por apellido" << endl;
-		cout << "2. Consulta de vendedores por legajo" << endl;
-		cout << "0 Volver" << endl;
-		cout << "-------------------------------------------" << endl;
+		cout << "--------------------------------------------------------------------------------" << endl;
+		cout << "|                                                                              |" << endl;
+		cout << "|                              VENDEDORES                                      |" << endl;
+		cout << "|                                                                              |" << endl;
+		cout << "--------------------------------------------------------------------------------" << endl;
+		cout << "|                                                                              |" << endl;
+		cout << "|  1. Listado por apellido                                                     |" << endl;
+		cout << "|                                                                              |" << endl;
+		cout << "|  2. Consulta de vendedores por legajo                                        |" << endl;
+		cout << "|                                                                              |" << endl;
+		cout << "|  0. Volver                                                                   |" << endl;
+		cout << "|                                                                              |" << endl;
+		cout << "--------------------------------------------------------------------------------" << endl << endl;
 		cout << "Ingrese una opcion: ";
 		int opcion;
 		cin >> opcion;
