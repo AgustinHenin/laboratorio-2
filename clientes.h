@@ -1,10 +1,12 @@
+//hice los mismos cambios que en el zoom, agregue lso const y cambie el 300 por 50
+
 #pragma once
 #include "persona.h"
 class clientes :
     public persona
 {
 private:
-    char domicilio[50], telefono[300], email[50];
+    char domicilio[50], telefono[50], email[50];
     int idCliente;
 public:
     clientes(int id = 0, string d = "-", string t = "-", string e = "-") {
@@ -19,10 +21,10 @@ public:
     void mostrar() {}
 
 
-    const char* getdomicilio() { return domicilio; }
-    const char* gettelefono() { return telefono; }
-    const char* getemail() { return email; }
-    int getidCliente() { return idCliente; }
+    const char* getdomicilio()  const { return domicilio; }
+    const char* gettelefono() const { return telefono; }
+    const char* getemail() const { return email; }
+    int getidCliente() const { return idCliente; }
 
     void setdomicilio(const char* d) { strcpy(domicilio, d); }
     void settelefono(const char* t) { strcpy(telefono, t); }
