@@ -4,7 +4,7 @@
 //agrego algo de memoria dinamica en los casos 2 y 3 del menu informes
 //cambio un poco la validacion de mes porque en algunos casos no funcionaba y agrego validacion de año
 //cambio forma en qye se muestran vendedores, clientes y polizas usando metodo mostrar de las clases vend y clientes y metodo mostrarpoliza de la clase gestion poliza
-
+//cambio forma de validar fecha
 
 #include <iomanip>
 #include <ctime>
@@ -610,13 +610,44 @@ void GestionSupervisor::SubMenuVentas() {
 			gestionpolizas gp;
 			cout << "Ingrese rango de fechas: ";
 			Fecha f1, f2;
-			do {
-				f1.cargar();
-			} while (!f1.validar());
-			do {
-				f2.cargar();
-			} while (!f2.validar());
-
+			int dia, mes, anio;
+			bool b = true, b1 = true;
+			while (b) {
+				cout << "Fecha 1 " << endl;
+				cout << "Dia: ";
+				if (ValidarEntradaTeclado(dia)) {
+					cout << "Mes: ";
+					if (ValidarEntradaTeclado(mes)) {
+						cout << "Anio: ";
+						if (ValidarEntradaTeclado(anio)) {
+							f1.setdia(dia);
+							f1.setmes(mes);
+							f1.setanio(anio);
+							if (f1.validar()) {
+								b = false;
+							}
+						}
+					}
+				}
+			}
+			while (b1) {
+				cout << "Fecha 2 " << endl;
+				cout << "Dia: ";
+				if (ValidarEntradaTeclado(dia)) {
+					cout << "Mes: ";
+					if (ValidarEntradaTeclado(mes)) {
+						cout << "Anio: ";
+						if (ValidarEntradaTeclado(anio)) {
+							f2.setdia(dia);
+							f2.setmes(mes);
+							f2.setanio(anio);
+							if (f2.validar()) {
+								b1 = false;
+							}
+						}
+					}
+				}
+			}
 			for (const polizas& poliza : vectorPolizas) {
 				if (f1 <= poliza.getFechaDeVenta() && poliza.getFechaDeVenta() <= f2) {   //cambio forma de comparar, operador definido en clase fecha
 					//cout << poliza.toString() << endl;
@@ -762,7 +793,7 @@ void GestionSupervisor::SubMenuApercibimientos() {
 		case 2: {
 			system("cls");
 			cout << "Ingrese legajo del vendedor: ";
-			int leg;
+			int leg, dia, mes, anio;
 			bool b = true, b1 = true, b2 = true;
 			archivovendedores av;
 			archivomotivos am;
@@ -773,11 +804,25 @@ void GestionSupervisor::SubMenuApercibimientos() {
 						for (vendedores& vendedor : vectorVendedores) {
 							if (vendedor.getLegajo() == leg) {
 								apercibimientos a;
-								//b = false;
-								cout << "Ingrese la fecha" << endl;
 								Fecha fecha;
-								fecha.cargar();//validar entrada en este metodo
-								fecha.validar();
+								while (b) {
+									cout << "Ingrese la fecha" << endl;
+									cout << "Dia: ";
+									if (ValidarEntradaTeclado(dia)) {
+										cout << "Mes: ";
+										if (ValidarEntradaTeclado(mes)) {
+											cout << "Anio: ";
+											if (ValidarEntradaTeclado(anio)) {
+												fecha.setdia(dia);
+												fecha.setmes(mes);
+												fecha.setanio(anio);
+												if (fecha.validar()) {
+													b = false;
+												}
+											}
+										}
+									}
+								}
 								cout << "Ingrese ID del motivo: ";
 								int mot;
 								while (b2) {
@@ -958,18 +1003,45 @@ void GestionSupervisor::SubMenuInformes() {
 			system("cls");
 			cout << "Ingrese rango de fechas: " << endl;
 			Fecha f1, f2;
-			cout << "Fecha 1 " << endl;
-			do {
-				f1.cargar();
-			} while (!f1.validar());
-
+			int dia, mes, anio;
+			bool b = true, b1 = true;
+			while (b) {
+				cout << "Fecha 1 " << endl;
+				cout << "Dia: ";
+				if (ValidarEntradaTeclado(dia)) {
+					cout << "Mes: ";
+					if (ValidarEntradaTeclado(mes)) {
+						cout << "Anio: ";
+						if (ValidarEntradaTeclado(anio)) {
+							f1.setdia(dia);
+							f1.setmes(mes);
+							f1.setanio(anio);
+							if (f1.validar()) {
+								b = false;
+							}
+						}
+					}
+				}
+			}
 			cout << "---------------------------------" << endl;
-			cout << "Fecha 2 " << endl;
-
-			do {
-				f2.cargar();
-			} while (!f2.validar());
-
+			while (b1) {
+				cout << "Fecha 2 " << endl;
+				cout << "Dia: ";
+				if (ValidarEntradaTeclado(dia)) {
+					cout << "Mes: ";
+					if (ValidarEntradaTeclado(mes)) {
+						cout << "Anio: ";
+						if (ValidarEntradaTeclado(anio)) {
+							f2.setdia(dia);
+							f2.setmes(mes);
+							f2.setanio(anio);
+							if (f2.validar()) {
+								b1 = false;
+							}
+						}
+					}
+				}
+			}
 			archivoseguros archSeg;
 			int * CantidadPorTipoSeguro;
 			float* RecaudacionPorSeguro;
