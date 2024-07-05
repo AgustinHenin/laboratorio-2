@@ -1,4 +1,5 @@
 //hice los mismos cambios que en el zoom, agregue lso const y cambie el 300 por 50
+//agrego mostrar()
 
 #pragma once
 #include "persona.h"
@@ -18,7 +19,17 @@ public:
 
     void cargar() {}
 
-    void mostrar() {}
+    void mostrar() const {
+		cout << "ID: " << idCliente << endl;
+		cout << "NOMBRE: " << getNombre() << endl;
+		cout << "APELLIDO: " << getApellido() << endl;
+		cout << "DNI: " << getDNI() << endl;
+		cout << "FECHA DE NACIMIENTO: ";
+		getNacimiento().mostrar();
+		cout << "TEL: " << telefono << endl;
+		cout << "MAIL: " << email << endl;
+		cout << "DOMICILIO: " << domicilio;
+	}
 
 
     const char* getdomicilio()  const { return domicilio; }
