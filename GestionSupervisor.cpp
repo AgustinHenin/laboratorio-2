@@ -1,12 +1,16 @@
 //agrego otro metodo de validacion que verifica que, en el archivo correpondiante, exista
 //un registro que coincida con el dato ingresado
 // agrego validaciones de fechas 
+//agrego algo de memoria dinamica en los casos 2 y 3 del menu informes
+//cambio un poco la validacion de mes porque en algunos casos no funcionaba y agrego validacion de año
+//cambio forma en qye se muestran vendedores, clientes y polizas usando metodo mostrar de las clases vend y clientes y metodo mostrarpoliza de la clase gestion poliza
 
 
 #include <iomanip>
 #include <ctime>
 #include "algorithm"
 #include "GestionSupervisor.h"
+#include "gestionventas.h"
 
 using namespace std;
 
@@ -87,16 +91,20 @@ void GestionSupervisor::SubMenuClientes() {
 			system("cls");
 			sort(vectorClientes.begin(), vectorClientes.end(), GestionVectores::CompararPorApellido);
 			for (const clientes& cliente : vectorClientes) {
-				cout << cliente.toString() << endl;
-				cout << "----------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+				cout << endl;
+				cliente.mostrar();
+				cout << endl;
+				cout << "--------------------------------------------------" << endl;
 			}
 		}break;
 		case 2: {
 			system("cls");
 			std::sort(vectorClientes.begin(), vectorClientes.end(), GestionVectores::CompararPorNacimiento);
 			for (const clientes& cliente : vectorClientes) {
-				cout << cliente.toString() << endl;;
-				cout << "----------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+				//cout << cliente.toString() << endl;
+				cliente.mostrar();
+				cout << endl;
+				cout << "---------------------------------------------------" << endl;
 			}
 		}break;
 		case 3: {
@@ -110,7 +118,9 @@ void GestionSupervisor::SubMenuClientes() {
 					for (const clientes& cliente : vectorClientes) {
 						if (cliente.getDNI() == dni) {
 							system("cls");
-							cout << cliente.toString2() << endl;
+							//cout << cliente.toString2() << endl;
+							cliente.mostrar();
+							cout << endl;
 							B = false;
 							B1 = false;
 							break;
@@ -143,7 +153,9 @@ void GestionSupervisor::SubMenuClientes() {
 							for (const clientes& cliente : vectorClientes) {
 								if (calcularEdad(cliente.getNacimiento().getanio(), cliente.getNacimiento().getmes(), cliente.getNacimiento().getdia()) >= edad1 && calcularEdad(cliente.getNacimiento().getanio(), cliente.getNacimiento().getmes(), cliente.getNacimiento().getdia()) <= edad2) {
 									B = false;
-									cout << cliente.toString() << endl;
+									//cout << cliente.toString() << endl;
+									cliente.mostrar();
+									cout << endl;
 									cout << ".........................." << endl;
 
 								}
@@ -168,7 +180,9 @@ void GestionSupervisor::SubMenuClientes() {
 				if (strcmp(cliente.gettelefono(), telefono) == 0) {
 					b = false;
 					cout << "----------------------------------------------" << endl;
-					cout << cliente.toString2() << endl;
+					//cout << cliente.toString2() << endl;
+					cliente.mostrar();
+					cout << endl;
 					break;
 				}
 			}
@@ -197,12 +211,14 @@ void GestionSupervisor::SubMenuClientes() {
 					if (ae.validarestado(idEstado)) {
 						b1 = false;
 						for (const estadoXcliente& estadoXcliente : vectorEstadoXcliente) {
-							cout << endl;
+							
 							if (estadoXcliente.getidEstado() == idEstado) {
 								b = false;
 								for (const clientes& cliente : vectorClientes) {
 									if (cliente.getidCliente() == estadoXcliente.getidCliente()) {
-										cout << cliente.toString() << endl;
+										//cout << cliente.toString() << endl;
+										cout << endl;
+										cliente.mostrar();
 										cout << endl;
 										break;
 									}
@@ -299,8 +315,10 @@ void GestionSupervisor::SubMenuVendedores() {
 			system("cls");
 			std::sort(vectorVendedores.begin(), vectorVendedores.end(), GestionVectores::CompararPorApellido);
 			for (const vendedores& vendedor : vectorVendedores) {
-				cout << vendedor.toString() << endl;
-				cout << "----------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+				cout << endl;
+				vendedor.mostrar();
+				cout << endl;
+				cout << "------------------------------------------------" << endl;
 			}
 		}break;
 		case 2: {
@@ -317,7 +335,9 @@ void GestionSupervisor::SubMenuVendedores() {
 							if (vendedor.getLegajo() == legajo) {
 								//b1 = false;
 								cout << "---------------------------------------------" << endl;
-								cout << vendedor.toString() << endl;
+								//cout << vendedor.toString() << endl;
+								vendedor.mostrar();
+								cout << endl;
 							}
 						}
 					}
@@ -434,6 +454,7 @@ void GestionSupervisor::SubMenuPolizas() {
 			int nro;
 			bool b = true, b1 = true;
 			archivopolizas ap;
+			gestionpolizas gp;
 			while (b1) {
 				if (ValidarEntradaTeclado(nro)) {
 					if (ap.validarpoliza(nro)) {
@@ -441,7 +462,8 @@ void GestionSupervisor::SubMenuPolizas() {
 						for (const polizas& poliza : vectorPolizas) {
 							if (poliza.getNdePoliza() == nro) {
 								cout << "-------------------------------------------------------" << endl;
-								cout << poliza.toString() << endl;
+								gp.mostrarpoliza(nro);
+								//cout << poliza.toString() << endl;
 								//b = false;
 							}
 						}
@@ -528,31 +550,40 @@ void GestionSupervisor::SubMenuVentas() {
 		switch (opcion) {
 		case 1: {
 			system("cls");
+			gestionpolizas gp;
 			std::sort(vectorPolizas.begin(), vectorPolizas.end(), GestionVectores::CompararPorFecha);
 			for (const polizas& poliza : vectorPolizas) {
-				cout << poliza.toString() << endl;
-				cout << "----------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+				//cout << poliza.toString() << endl;
+				gp.mostrarpoliza(poliza.getNdePoliza());
+				cout << "----------------------------------------------------" << endl;
 			}
 
 		}break;
 		case 2: {
 			system("cls");
+			gestionpolizas gp;
 			std::sort(vectorPolizas.begin(), vectorPolizas.end(), GestionVectores::CompararPorLegajoVendedor);
 			for (int i = 0; i < vectorPolizas.size(); i++) {
 				if (i == 0) {
 					cout << "	VENTAS DE  " << GestionVectores::BuscarVendedorPorLegajo(vectorVendedores, vectorPolizas[i].getLegajoVendedor()).toStringNombreYApellido() << endl << endl;
-					cout << vectorPolizas[i].toString() << endl;
+					//cout << vectorPolizas[i].toString() << endl;
+					gp.mostrarpoliza(vectorPolizas[i].getNdePoliza());
+					cout << endl;
 				}
 				else {
 					if (vectorPolizas[i].getLegajoVendedor() == vectorPolizas[i - 1].getLegajoVendedor()) {
-						cout << vectorPolizas[i].toString() << endl << endl;
+						//cout << vectorPolizas[i].toString() << endl << endl;
+						gp.mostrarpoliza(vectorPolizas[i].getNdePoliza());
+						cout << endl << endl;
 					}
 					else {
 						cout << endl;
-						cout << "----------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+						cout << "---------------------------------------------------------" << endl;
 						cout << "	VENTAS DE  " << GestionVectores::BuscarVendedorPorLegajo(vectorVendedores, vectorPolizas[i].getLegajoVendedor()).toStringNombreYApellido() << endl << endl;
 
-						cout << vectorPolizas[i].toString() << endl << endl;
+						//cout << vectorPolizas[i].toString() << endl << endl;
+						gp.mostrarpoliza(vectorPolizas[i].getNdePoliza());
+						cout << endl << endl;
 					}
 				}
 			}
@@ -560,13 +591,15 @@ void GestionSupervisor::SubMenuVentas() {
 		}break;
 		case 3: {
 			system("cls");
+			gestionpolizas gp;
 			std::sort(vectorPolizas.begin(), vectorPolizas.end(), GestionVectores::CompararPorSeguro);  //
 			for (int i = 0; i < vectorSeguros.size(); i++) {                                            //cambie este metodo porque no funcionaba
-				cout << endl << "Ventas de seguros de " << vectorSeguros[i].getnombre() << endl;
+				cout << endl << endl << "Ventas de seguros de " << vectorSeguros[i].getnombre() << endl;
 				cout << "--------------------------------------------------------------------------" << endl;//el ciclo daba una vuelta por cada poliza y si
 				for (const polizas& poliza : vectorPolizas) {                                       //habia 0 o mas de 1 poliza de algun seguro empezaba
 					if (vectorSeguros[i].getidSeguro() == poliza.getidSeguro()) {               //a pedir el nombre en la posicion incorrecta del vector
-						cout << poliza.toString() << endl << endl;                          //de seguros
+						//cout << poliza.toString() << endl << endl;                          //de seguros
+						gp.mostrarpoliza(poliza.getNdePoliza());
 					}                                                                           //
 				}                                                                                   //
 			}                                                                                           //
@@ -574,6 +607,7 @@ void GestionSupervisor::SubMenuVentas() {
 		}break;
 		case 4: {
 			system("cls");
+			gestionpolizas gp;
 			cout << "Ingrese rango de fechas: ";
 			Fecha f1, f2;
 			do {
@@ -585,13 +619,15 @@ void GestionSupervisor::SubMenuVentas() {
 
 			for (const polizas& poliza : vectorPolizas) {
 				if (f1 <= poliza.getFechaDeVenta() && poliza.getFechaDeVenta() <= f2) {   //cambio forma de comparar, operador definido en clase fecha
-					cout << poliza.toString() << endl;
+					//cout << poliza.toString() << endl;
+					gp.mostrarpoliza(poliza.getNdePoliza());
 				}
 			}
 
 		}break;
 		case 5: {
 			system("cls");
+			gestionpolizas gp;
 			cout << "Ingrese el Id del seguro: " << endl;
 			cout << "--------------------------------------" << endl;
 			int id;
@@ -603,7 +639,8 @@ void GestionSupervisor::SubMenuVentas() {
 						b1 = false;
 						for (const polizas& poliza : vectorPolizas) {
 							if (poliza.getidSeguro() == id) {
-								cout << poliza.toString() << endl;
+								//cout << poliza.toString() << endl;
+								gp.mostrarpoliza(poliza.getNdePoliza());
 								cout << "--------------------------------------" << endl;
 								b = false;
 
@@ -627,6 +664,7 @@ void GestionSupervisor::SubMenuVentas() {
 			int legajo;
 			bool b = true, b1 = true;
 			archivovendedores av;
+			gestionpolizas gp;
 			while (b1) {
 				if (ValidarEntradaTeclado(legajo)) {
 					if (av.validarvendedor(legajo)) {
@@ -634,7 +672,8 @@ void GestionSupervisor::SubMenuVentas() {
 						for (const polizas& poliza : vectorPolizas) {
 							if (poliza.getLegajoVendedor() == legajo) {
 								b = false;
-								cout << poliza.toString() << endl;
+								//cout << poliza.toString() << endl;
+								gp.mostrarpoliza(poliza.getNdePoliza());
 								cout << "--------------------------------------------" << endl;
 							}
 						}
@@ -806,34 +845,34 @@ void GestionSupervisor::SubMenuInformes() {
 			int anio;
 			bool b = true;
 			while (b) {
+				if (validarAnio(anio)) {
+						b = false;
+						cout << "--------------------------------" << endl;
+						vector<vector<float>> vectorRecaudacionesPorMes;
+						vectorRecaudacionesPorMes.resize(12);
 
-				if (ValidarEntradaTeclado(anio)) {
-					b = false;
-					cout << "--------------------------------" << endl;
-					vector<vector<float>> vectorRecaudacionesPorMes;
-					vectorRecaudacionesPorMes.resize(12);
-
-					for (const polizas& poliza : vectorPolizas) {
-						if (poliza.getFechaDeVenta().getanio() == anio) {
-							vectorRecaudacionesPorMes[poliza.getFechaDeVenta().getmes() - 1].push_back(poliza.getCuota());
+						for (const polizas& poliza : vectorPolizas) {
+							if (poliza.getFechaDeVenta().getanio() == anio) {
+								vectorRecaudacionesPorMes[poliza.getFechaDeVenta().getmes() - 1].push_back(poliza.getCuota());
+							}
 						}
-					}
 
-					vector<float> recaudacionMensual;
-					for (const vector<float>& RecaudacionPorMes : vectorRecaudacionesPorMes) {
-						float recaudacion = 0;
-						for (const float& cuota : RecaudacionPorMes) {
-							recaudacion += cuota;
+						vector<float> recaudacionMensual;
+						for (const vector<float>& RecaudacionPorMes : vectorRecaudacionesPorMes) {
+							float recaudacion = 0;
+							for (const float& cuota : RecaudacionPorMes) {
+								recaudacion += cuota;
+							}
+							recaudacionMensual.push_back(recaudacion);
 						}
-						recaudacionMensual.push_back(recaudacion);
-					}
 
-					cout << left << setw(15) << "MES" << "|" << setw(15) << "RECAUDACION" << endl;
-					cout << string(32, '-') << endl;
+						cout << left << setw(15) << "MES" << "|" << setw(15) << "RECAUDACION" << endl;
+						cout << string(32, '-') << endl;
 
-					for (int i = 0; i < recaudacionMensual.size(); i++) {
-						cout << left << setw(15) << Fecha().toStringMes(i + 1) << "|$" << setw(15) << recaudacionMensual[i] << endl;
-					}
+						for (int i = 0; i < recaudacionMensual.size(); i++) {
+							cout << left << setw(15) << Fecha().toStringMes(i + 1) << "|$" << setw(15) << recaudacionMensual[i] << endl;
+						}
+					
 					cout << endl;
 
 				}
@@ -843,74 +882,76 @@ void GestionSupervisor::SubMenuInformes() {
 		}break;
 		case 2: {
 			system("cls");
+			archivovendedores av;
+			float *RecaudacionPorVendedor;
+			int cant = av.contarRegistros();
+			RecaudacionPorVendedor = new float[cant];
+			for (int i = 0; i < cant; i++) {
+				RecaudacionPorVendedor[i] = 0;
+			}
 			cout << "Ingrese el anio: ";
 			int anio;
-			if (ValidarEntradaTeclado(anio)) {
+			bool b = true;
+			while (b) {
+				if (validarAnio(anio)) {
+					b = false;
+					int mes;
+					bool mesValido = false;
+					do {
+						cout << "Ingrese el mes: ";
+						if (validarMes(mes)) {
+								
+								mesValido = true;
+								
+						}
+						else {
+							cout << "Mes invalido. Por favor, ingrese un valor entre 1 y 12." << endl;
+						}
+					} while (!mesValido);
 
+					system("cls");
+					cout << "Los porcentajes de comisiones son:" << endl << endl;
+					cout << "10% si el total recaudado es menor a $100000" << endl;
+					cout << "15% si el total recaudado es mayor a $100000 y menor a $200000" << endl;
+					cout << "20% si el total recaudado es mayor a $200000" << endl;
+					cout << "--------------------------------------------" << endl;
+					cout << " Comisiones por vendedor en " << Fecha().toStringMes(mes) << " del " << anio << endl << endl;
 
-				int mes;
-				bool mesValido = false;
+					for (const vendedores& vendedor : vectorVendedores) {
 
-				do {
-					cout << "Ingrese el mes: ";
-					if (ValidarEntradaTeclado(mes) && validarMes(mes)) {
-						mesValido = true;
-					}
-					else {
-						cout << "Mes invalido. Por favor, ingrese un valor entre 1 y 12." << endl;
-					}
-				} while (!mesValido);
-
-				system("cls");
-				cout << "Los porcentajes de comisiones son:" << endl << endl;
-				cout << "10% si el total recaudado es menor a $100000" << endl;
-				cout << "15% si el total recaudado es mayor a $100000 y menor a $200000" << endl;
-				cout << "20% si el total recaudado es mayor a $200000" << endl;
-				cout << "--------------------------------------------" << endl;
-				cout << " Comisiones por vendedor en " << Fecha().toStringMes(mes) << " del " << anio << endl << endl;
-
-				vector<float> vectorRecaudacionPorVendedor;
-
-				for (const vendedores& vendedor : vectorVendedores) {
-
-					float recaudacion = 0;
-					for (const polizas& poliza : vectorPolizas) {
-						if (vendedor.getLegajo() == poliza.getLegajoVendedor()) {
-							if (poliza.getFechaDeVenta().getanio() == anio && poliza.getFechaDeVenta().getmes() == mes) {
-
-								recaudacion += poliza.getCuota();
+						float recaudacion = 0;
+						for (const polizas& poliza : vectorPolizas) {
+							if (vendedor.getLegajo() == poliza.getLegajoVendedor()) {
+								if (poliza.getFechaDeVenta().getanio() == anio && poliza.getFechaDeVenta().getmes() == mes) {
+									RecaudacionPorVendedor[vendedor.getLegajo() - 1] += poliza.getCuota();
+								}
 							}
-
 						}
 					}
-					vectorRecaudacionPorVendedor.push_back(recaudacion);
+					cout << left << setw(30) << "VENDEDOR" << "|" << setw(15) << "TOTAL" << "|" << setw(15) << "% DE COMISION" << "|" << setw(15) << "COMISION" << endl;
+					cout << string(75, '-') << endl;
 
+					int i = 0;
+					for (const vendedores& vendedor : vectorVendedores) {
+						cout << left << setw(15) << vendedor.getApellido() << setw(15) << vendedor.getNombre() << "|" << setw(15) << ("$" + to_string(RecaudacionPorVendedor[i])) << "|" << setw(15);
+						if (RecaudacionPorVendedor[i] > 0 && RecaudacionPorVendedor[i] < 100000) {
+							cout << "10%" << "|" << "$" << RecaudacionPorVendedor[i] * 0.1 << endl;
+						}
+						else if (RecaudacionPorVendedor[i] > 100000 && RecaudacionPorVendedor[i] < 200000) {
+							cout << "15%" << "|" << "$" << RecaudacionPorVendedor[i] * 0.15 << endl;
+						}
+						else if (RecaudacionPorVendedor[i] > 200000) {
+							cout << "20%" << "|" << "$" << RecaudacionPorVendedor[i] * 0.2 << endl;
+						}
+						else if (RecaudacionPorVendedor[i] == 0) {
+							cout << "0%" << "|" << "$" << 0 << endl;
+						}
+						i++;
+					}
+					cout << endl;
 				}
-				cout << left << setw(30) << "VENDEDOR" << "|" << setw(15) << "TOTAL" << "|" << setw(15) << "% DE COMISION" << "|" << setw(15) << "COMISION" << endl;
-				cout << string(75, '-') << endl;
-
-				int i = 0;
-				for (const vendedores& vendedor : vectorVendedores) {
-					cout << left << setw(15) << vendedor.getApellido() << setw(15) << vendedor.getNombre() << "|" << setw(15) << ("$" + to_string(vectorRecaudacionPorVendedor[i])) << "|" << setw(15);
-					if (vectorRecaudacionPorVendedor[i] > 0 && vectorRecaudacionPorVendedor[i] < 100000) {
-						cout << "10%" << "|" << "$" << vectorRecaudacionPorVendedor[i] * 0.1 << endl;
-					}
-					else if (vectorRecaudacionPorVendedor[i] > 100000 && vectorRecaudacionPorVendedor[i] < 200000) {
-						cout << "15%" << "|" << "$" << vectorRecaudacionPorVendedor[i] * 0.15 << endl;
-					}
-					else if (vectorRecaudacionPorVendedor[i] > 200000) {
-						cout << "20%" << "|" << "$" << vectorRecaudacionPorVendedor[i] * 0.2 << endl;
-					}
-					else if (vectorRecaudacionPorVendedor[i] == 0) {
-						cout << "0%" << "|" << "$" << 0 << endl;
-					}
-					i++;
-
-				}
-
-				cout << endl;
-
 			}
+			delete RecaudacionPorVendedor;
 
 		}break;
 		case 3: {
@@ -930,8 +971,15 @@ void GestionSupervisor::SubMenuInformes() {
 			} while (!f2.validar());
 
 			archivoseguros archSeg;
-			vector<int> vectorCantidadPorTipoSeguro;
-			vector<float>vectorRecaudacion;
+			int * CantidadPorTipoSeguro;
+			float* RecaudacionPorSeguro;
+			int cant = archSeg.contarRegistros();
+			CantidadPorTipoSeguro = new int[cant];
+			RecaudacionPorSeguro = new float[cant];
+			for (int i = 0; i < cant; i++) {
+				CantidadPorTipoSeguro[i] = 0;
+				RecaudacionPorSeguro[i] = 0;
+			}
 
 			cout << string(55, '-') << endl;
 
@@ -942,23 +990,22 @@ void GestionSupervisor::SubMenuInformes() {
 					if (seguro.getidSeguro() == poliza.getidSeguro()) {
 
 						if (f1 <= poliza.getFechaDeVenta() && poliza.getFechaDeVenta() <= f2) { //cambio la forma de comparar, operador definido en clase fecha
-							cont++;
-							recaudacion += poliza.getCuota();
+							CantidadPorTipoSeguro[seguro.getidSeguro() - 1] ++;
+							RecaudacionPorSeguro[seguro.getidSeguro() - 1] += poliza.getCuota();
 						}
 					}
 				}
-				vectorCantidadPorTipoSeguro.push_back(cont);
-				vectorRecaudacion.push_back(recaudacion);
 			}
-
 			cout << left << setw(15) << "SEGURO" << "|" << setw(15) << "CANTIDAD" << "|" << setw(15) << "RECAUDACION" << endl;
 			cout << string(55, '-') << endl;
 
 			int i = 0;
 			for (const seguros& seguro : vectorSeguros) {
-				cout << left << setw(15) << seguro.getnombre() << "|" << setw(15) << vectorCantidadPorTipoSeguro[i] << "|" << setw(15) << vectorRecaudacion[i] << endl;
+				cout << left << setw(15) << seguro.getnombre() << "|" << setw(15) << CantidadPorTipoSeguro[i] << "|" << setw(15) << RecaudacionPorSeguro[i] << endl;
 				i++;
 			}
+			delete CantidadPorTipoSeguro;
+			delete RecaudacionPorSeguro;
 		}break;
 		case 0: {
 			system("cls");
@@ -1022,9 +1069,16 @@ bool GestionSupervisor::ValidarEntradaTeclado(T& datoIngresar) {
 }
 
 bool GestionSupervisor::validarMes(int& mes) {
-	while (mes < 1 || mes > 12) {
+	while (!ValidarEntradaTeclado(mes) || mes < 1 || mes > 12) {
 		cout << "Mes no válido. Por favor, ingrese un mes entre 1 y 12: ";
 		cin >> mes;
+	}
+	return true;
+}
+bool GestionSupervisor::validarAnio(int& anio) {
+	while (!ValidarEntradaTeclado(anio) || anio < 1) {
+		cout << "Anio no valido. Por favor, intente de nuevo: ";
+		cin >> anio;
 	}
 	return true;
 }
