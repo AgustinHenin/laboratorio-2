@@ -1,3 +1,6 @@
+//agrego mostrar() 
+//agrego const en los get
+
 #pragma once
 #include "persona.h"
 class vendedores :
@@ -20,13 +23,23 @@ public:
 
     void cargar() {}
 
-    void mostrar() {}
+    void mostrar() const {
+        cout << "LEGAJO: " << legajo << endl;
+        cout << "NOMBRE: " << getNombre() << endl;
+        cout << "APELLIDO: " << getApellido() << endl;
+        cout << "DNI: " << getDNI() << endl;
+        cout << "FECHA DE NACIMIENTO: ";
+        getNacimiento().mostrar();
+        cout << "SUELDO: " << sueldo << endl;
+        cout << "FECHA DE INGRESO: ";
+        getFechaDeIngreso().mostrar();
+    }
 
 
-    int getLegajo() { return legajo; }
-    float getSueldo() { return sueldo; }
-    Fecha getFechaDeIngreso() { return fechaIngreso; }
-    bool getActivo() { return activo; }
+    int getLegajo() const { return legajo; }
+    float getSueldo() const { return sueldo; }
+    Fecha getFechaDeIngreso() const { return fechaIngreso; }
+    bool getActivo() const { return activo; }
 
     void setLegajo(int l) { legajo = l; }
     void setSueldo(float s) { sueldo = s; }
