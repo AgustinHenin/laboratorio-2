@@ -1,4 +1,6 @@
-#pragma once
+//agrego metodo validaranio
+
+
 #include <iostream>
 #include <vector>
 #include "GestionVectores.h"
@@ -32,7 +34,7 @@ private:
 	std::vector<seguros> vectorSeguros;
 	std::vector<vendedores> vectorVendedores;
 	std::vector<polizas> vectorPolizas;
-        std::vector<apercibimientos>vectorApercibimientos;
+	std::vector<apercibimientos>vectorApercibimientos;
 	std::vector<estados>vectorEstados;
 	std::vector<estadoXcliente>vectorEstadoXcliente;
 	std::vector<motivosapercibimiento>vectorMotivosApercibimientos;
@@ -40,10 +42,11 @@ private:
 
 	void CargarVectores();
 
-        template<typename T>
+	template<typename T>
 	bool ValidarEntradaTeclado(T& datoIngresar);
 
 	int calcularEdad(int, int, int);
-bool validarMes(int& mes);
+	bool validarMes(int& mes);
+	bool validarAnio(int& anio);
 
 };
