@@ -12,12 +12,27 @@ int main() {
 	
 	while (true) {
 		system("cls");
-		cout << "SISTEMA DE GESTION CALL CENTER" << endl << endl;
-		cout << "........MENU PRINCIPAL........" << endl << endl;
-		cout << "1. Iniciar como vendedor" << endl;
-		cout << "2. Iniciar como supervisor" << endl;
-		cout << "3. Copias de seguridad" << endl;
-		cout << "0. Salir" << endl;
+		
+		cout << "================================================================================" << endl;
+		cout << "|                                                                              |" << endl;
+		cout << "|                      SISTEMA DE GESTION CALL CENTER                          |" << endl;
+		cout << "|                                                                              |" << endl;
+		cout << "================================================================================" << endl;
+		cout << "|                                                                              |" << endl;
+		cout << "|                              MENU PRINCIPAL                                  |" << endl;
+		cout << "|                                                                              |" << endl;
+		cout << "================================================================================" << endl;
+		cout << "|                                                                              |" << endl;
+		cout << "|  1. Iniciar como vendedor                                                    |" << endl;
+		cout << "|                                                                              |" << endl;
+		cout << "|  2. Iniciar como supervisor                                                  |" << endl;
+		cout << "|                                                                              |" << endl;
+		cout << "|  3. Copias de seguridad                                                      |" << endl;
+		cout << "|                                                                              |" << endl;
+		cout << "|  0. Salir                                                                    |" << endl;
+		cout << "|                                                                              |" << endl;
+		cout << "================================================================================" << endl << endl;
+		cout << "Ingrese una opcion: ";
 		int op;
 		cin >> op;
 		switch (op) {
