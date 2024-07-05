@@ -93,8 +93,9 @@ public:
         archivosxc asc;
         archivovendedores av;
         archivoseguros as;
-        int legajo, seguro, suma;
+        int legajo, seguro, suma, dia, mes, anio;
         char mediopago[20];
+        bool b = true;
         Fecha f;
         p.setididCliente(id);
         p.setNdePoliza(ap.siguiente());
@@ -141,9 +142,24 @@ public:
         cout << "Monto a pagar: $";
         cout << cuotaseguro(suma, seguro) << endl;
         p.setCuota(cuotaseguro(suma, seguro));
-        cout << "Fecha: " << endl;
-        f.cargar();
-        f.validar();
+        while (b) {
+            cout << "Ingrese la fecha" << endl;
+            cout << "Dia: ";
+            if (ValidarEntradaTeclado(dia)) {
+                cout << "Mes: ";
+                if (ValidarEntradaTeclado(mes)) {
+                    cout << "Anio: ";
+                    if (ValidarEntradaTeclado(anio)) {
+                        f.setdia(dia);
+                        f.setmes(mes);
+                        f.setanio(anio);
+                        if (f.validar()) {
+                            b = false;
+                        }
+                    }
+                }
+            }
+        }
         p.setfechaVenta(f);
         cout << "Medio de pago: ";
         cargarcadena(mediopago, 19);
