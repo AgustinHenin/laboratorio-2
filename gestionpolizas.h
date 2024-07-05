@@ -129,7 +129,12 @@ public:
         cout << "Suma asegurada: $";
         while (true) {
             if (ValidarEntradaTeclado(suma)) {
-                break;
+                if (suma > 0) {
+                    break;
+                }
+                else {
+                    cout << "Suma no valida, ingrese un valor mayor que cero: ";
+                }
             }
         }
         p.setSuma(suma);
